@@ -525,10 +525,6 @@ void calculator::runBruteForce()
     if(inputHandle.WLBoost) {
         num_iterations *= 2;
     }
-    // Debug
-    #ifdef DEBUG
-    cout << "num_iterations = " << num_iterations << endl;
-    #endif
 
     // Current value of knobs
     float knob_curr_val[32];
@@ -536,6 +532,11 @@ void calculator::runBruteForce()
     // Loop over all the iterations
     for(int i=0; i < num_iterations; ++i)
     {
+    // Debug
+    #ifdef DEBUG
+    cout << "num_iterations = " << i+1 << "/" << num_iterations << endl;
+    #endif
+
         // Set the WLBoost to "0" in the second
         // group of iteration if it exists
         // Need to send a copy of the input handle
