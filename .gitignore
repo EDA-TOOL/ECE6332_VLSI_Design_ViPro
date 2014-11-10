@@ -1,0 +1,4 @@
+tags
+*.o
+regFileBin
+output.txt
