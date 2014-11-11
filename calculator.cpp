@@ -91,9 +91,9 @@ void calculator::createRegFile() {
     std::cout << "WLratio = " << inputHandle.WLratio << std::endl;
     std::cout << "sweepToken = " << inputHandle.sweepToken << std::endl;
     std::cout << "sweepBegin = " << inputHandle.sweepBegin << std::endl;
-    std::cout << "sweepEnd " << inputHandle.sweepEnd << std::endl;
-    std::cout << "sweepStep" << inputHandle.sweepStep << std::endl;
-    std::cout << "sweepOutput" << inputHandle.sweepOutput << std::endl;
+    std::cout << "sweepEnd = " << inputHandle.sweepEnd << std::endl;
+    std::cout << "sweepStep = " << inputHandle.sweepStep << std::endl;
+    std::cout << "sweepOutput = " << inputHandle.sweepOutput << std::endl;
 }
 
 void calculator::rmPrevResults() {
