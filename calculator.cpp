@@ -304,6 +304,7 @@ void calculator::redefineKnobs() {
                 inputHandle.minNumBanks = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumBanks = (int)inputHandle.knobMax[i];
                 #ifdef NODEBUG
+                std::cout << "(redefineKnobs) i: " << i << std::endl;
                 std::cout << "(redefineKnobs) NBANKS Min: " << inputHandle.minNumBanks << std::endl;
                 std::cout << "(redefineKnobs) NBANKS Max: " << inputHandle.maxNumBanks << std::endl;
                 #endif
@@ -312,6 +313,7 @@ void calculator::redefineKnobs() {
                 inputHandle.minNumColMux = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumColMux = (int)inputHandle.knobMax[i];
                 #ifdef NODEBUG
+                std::cout << "(redefineKnobs) i: " << i << std::endl;
                 std::cout << "(redefineKnobs) NCOLS Min: " << inputHandle.minNumColMux << std::endl;
                 std::cout << "(redefineKnobs) NCOLS Max: " << inputHandle.maxNumColMux << std::endl;
                 #endif
@@ -324,6 +326,7 @@ void calculator::redefineKnobs() {
             newknobMax[newknobCount] = inputHandle.knobMax[i];
             ++newknobCount;
             #ifdef NODEBUG
+            std::cout << "(redefineKnobs) i: " << i << std::endl;
             std::cout << "(redefineKnobs) newknobName[" << newknobCount << "] = " << newknobName[newknobCount] << std::endl;
             std::cout << "(redefineKnobs) newknobMin[" << newknobCount << "] = " << newknobMin[newknobCount] << std::endl;
             std::cout << "(redefineKnobs) newknobMax[" << newknobCount << "] = " << newknobMax[newknobCount] << std::endl;
