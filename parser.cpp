@@ -67,14 +67,18 @@ void parser::consumeNewLines(string& str) {
 int parser::parseToken(string& str) {
     string cmd = checkCmd(str);
     if (!strcmp(cmd.c_str(), "SWEEP")) {
+        #ifdef DEBUG
         cout << "SWEEP: " << endl;
+        #endif
         parseSWEEPToken(str);
     }
     else if (!strcmp(cmd.c_str(), "OPTIMIZE")) {
         parseOPTIMIZEToken(str);
     }
     else {
+        #ifdef DEBUG
         cout << "UserToken: " << str.c_str() << endl;
+        #endif
         parseUserToken(str);
     }
 }
@@ -142,7 +146,6 @@ int parser::parseUserToken(string& str) {
 }
 
 int parser::parseSWEEPToken(string& str) {
-    cout << str << endl;
     regex_t re;
     size_t nmatch = 6;
     regmatch_t pmatch[6];
@@ -183,7 +186,9 @@ int parser::parseOPTIMIZEToken(string& str) {
     parseKNOBS(knobs);
 
     str.erase(pmatch[0].rm_so, pmatch[0].rm_eo - pmatch[0].rm_so);
+    #ifdef DEBUG
     cout << "OBJ = " << obj << "KNOB = " << knobs << endl;
+    #endif
     // No need for returning int
     return 0;
 }

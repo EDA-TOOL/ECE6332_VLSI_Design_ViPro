@@ -11,6 +11,7 @@ int main()
 {
 	calculator* CT = new calculator;
 	CT->parseInputFile();
+    /*
 	CT->createRegFile();
 	CT->rmPrevResults();
 	//CT->printInputParam();
@@ -48,6 +49,7 @@ int main()
 	//sram->runSimulations();
 	//sram->constructTemplate();
 
+    */
 
 	return 0;
 }
