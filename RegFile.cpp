@@ -42,8 +42,8 @@ void RegFile::charGateCap() {
     new_templ_path << tasePath << "/template/RVPn_" << tech << ".ini";
 
     #ifdef NODEBUG
-    cout << templ_path.str().c_str() << endl;
-    cout << new_templ_path.str().c_str() << endl;
+    cout << "templ_path = " << templ_path.str().c_str() << endl;
+    cout << "new_templ_path = " << new_templ_path.str().c_str() << endl;
     #endif
     ifstream tpl(templ_path.str().c_str());
     ofstream newtpl(new_templ_path.str().c_str());
