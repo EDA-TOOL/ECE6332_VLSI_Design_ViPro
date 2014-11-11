@@ -11,7 +11,6 @@ RegFile::RegFile(userInput& uImp) {
 }
 
 RegFile::RegFile() {
-    cout << "Const Called" << endl;
     gateCap = 0;
     rbl = 0;
     cbl = 0;
