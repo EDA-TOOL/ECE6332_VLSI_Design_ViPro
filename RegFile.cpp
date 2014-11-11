@@ -36,12 +36,15 @@ void RegFile::charGateCap() {
     // Need to check TASE flag
     // Need to check if SCOT needs pre-processor(s)
     string tasePath = inp.TASEpath;
-    stringstream templ_path,new_templ_path;
+    stringstream templ_path, new_templ_path;
     string tech = inp.technology;
     templ_path << tasePath << "/template/RVPtpl_" << tech << ".ini";
     new_templ_path << tasePath << "/template/RVPn_" << tech << ".ini";
 
+    #ifdef NODEBUG
     cout << templ_path.str().c_str() << endl;
+    cout << new_templ_path.str().c_str() << endl;
+    #endif
     ifstream tpl(templ_path.str().c_str());
     ofstream newtpl(new_templ_path.str().c_str());
     stringstream new_tpl;
@@ -70,13 +73,15 @@ void RegFile::charGateCap() {
 
 
     // Get the Gate Cap
-    ifstream fileHandle ("../results_v2/GC/RVP_Gate_Capacitance/data.txt");
+    ifstream fileHandle("../results_v2/GC/RVP_Gate_Capacitance/data.txt");
     if (fileHandle.is_open()) {
         stringstream st;
         st << fileHandle.rdbuf();
         gateCap = atof(st.str().c_str());
-        //cout << "RVP_Gate opened" << endl;
         fileHandle.close();
+        #ifdef NODEBUG
+        std::cout << "gateCap = " << gateCap << std::endl;
+        #endif
     } else {
         cerr << "Error: Can't open RVP_Gate_Capacitance test output " <<  endl;
         exit(1);
@@ -94,7 +99,11 @@ void RegFile::calculateTechRC() {
     rbl = obj.res*inp.BCheight*1e6;
     cbl = obj.cap*inp.BCheight*1e6;
     cwl = obj.cap*inp.BCwidth*1e6;
-    //cout << rbl << " " << cbl << " " << cwl << endl;
+    #ifdef NODEBUG
+    std::cout << "rbl = " << rbl << std::endl;
+    std::cout << "cbl = " << cbl << std::endl;
+    std::cout << "cwl = " << cwl << std::endl;
+    #endif
     //exit(1);
 }
 

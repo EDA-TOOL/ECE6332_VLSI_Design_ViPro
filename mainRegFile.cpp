@@ -15,9 +15,9 @@ int main()
 	CT->rmPrevResults();
 	//CT->printInputParam();
 	CT->redefineKnobs();
-    /*
 	//CT->printInputParam();
 	CT->runCharTests();
+    /*
 	CT->checkInputParam();
 	//CT->simulate();
     //CT->sweep();

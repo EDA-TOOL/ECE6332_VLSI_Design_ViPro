@@ -303,7 +303,7 @@ void calculator::redefineKnobs() {
             if(!strcmp(inputHandle.knobName[i].c_str(),"NBANKS") && inputHandle.calNumBanks) {
                 inputHandle.minNumBanks = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumBanks = (int)inputHandle.knobMax[i];
-                #ifdef NODEBUG
+                #ifdef DEBUG
                 std::cout << "(redefineKnobs) i: " << i << std::endl;
                 std::cout << "(redefineKnobs) NBANKS Min: " << inputHandle.minNumBanks << std::endl;
                 std::cout << "(redefineKnobs) NBANKS Max: " << inputHandle.maxNumBanks << std::endl;
@@ -312,7 +312,7 @@ void calculator::redefineKnobs() {
             else if(!strcmp(inputHandle.knobName[i].c_str(),"NCOLS") && inputHandle.calNumColMux) {
                 inputHandle.minNumColMux = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumColMux = (int)inputHandle.knobMax[i];
-                #ifdef NODEBUG
+                #ifdef DEBUG
                 std::cout << "(redefineKnobs) i: " << i << std::endl;
                 std::cout << "(redefineKnobs) NCOLS Min: " << inputHandle.minNumColMux << std::endl;
                 std::cout << "(redefineKnobs) NCOLS Max: " << inputHandle.maxNumColMux << std::endl;
@@ -325,7 +325,7 @@ void calculator::redefineKnobs() {
             newknobMin[newknobCount] = inputHandle.knobMin[i];
             newknobMax[newknobCount] = inputHandle.knobMax[i];
             ++newknobCount;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(redefineKnobs) i: " << i << std::endl;
             std::cout << "(redefineKnobs) newknobName[" << newknobCount-1 << "] = " << inputHandle.knobName[i] << std::endl;
             std::cout << "(redefineKnobs) newknobMin[" << newknobCount-1 << "] = " << inputHandle.knobMin[i] << std::endl;
@@ -342,7 +342,7 @@ void calculator::redefineKnobs() {
         inputHandle.knobName[i] = newknobName[i];
         inputHandle.knobMin[i] = newknobMin[i];
         inputHandle.knobMax[i] = newknobMax[i];
-        #ifdef NODEBUG
+        #ifdef DEBUG
         std::cout << "(overwriting) inputHandle.knobName[" << i << "] = " << inputHandle.knobName[i] << std::endl;
         std::cout << "(overwriting) inputHandle.knobMin[" << i << "] = " << inputHandle.knobMin[i] << std::endl;
         std::cout << "(overwriting) inputHandle.knobMax[" << i << "] = " << inputHandle.knobMax[i] << std::endl;
