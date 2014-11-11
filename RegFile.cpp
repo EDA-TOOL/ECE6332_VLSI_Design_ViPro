@@ -41,7 +41,7 @@ void RegFile::charGateCap() {
     templ_path << tasePath << "/template/RVPtpl_" << tech << ".ini";
     new_templ_path << tasePath << "/template/RVPn_" << tech << ".ini";
 
-    #ifdef NODEBUG
+    #ifdef DEBUG
     cout << "templ_path = " << templ_path.str().c_str() << endl;
     cout << "new_templ_path = " << new_templ_path.str().c_str() << endl;
     #endif
@@ -79,7 +79,7 @@ RVP_Gate_Capacitance\n\
         st << fileHandle.rdbuf();
         gateCap = atof(st.str().c_str());
         fileHandle.close();
-        #ifdef NODEBUG
+        #ifdef DEBUG
         std::cout << "gateCap = " << gateCap << std::endl;
         #endif
     } else {
@@ -99,7 +99,7 @@ void RegFile::calculateTechRC() {
     rbl = obj.res*inp.BCheight*1e6;
     cbl = obj.cap*inp.BCheight*1e6;
     cwl = obj.cap*inp.BCwidth*1e6;
-    #ifdef NODEBUG
+    #ifdef DEBUG
     std::cout << "rbl = " << rbl << std::endl;
     std::cout << "cbl = " << cbl << std::endl;
     std::cout << "cwl = " << cwl << std::endl;
@@ -111,7 +111,7 @@ void RegFile::calculateTechRC() {
 // call it add cap to template
 void RegFile::constructTemplate() {
 
-        // Empty the template
+    // Empty the template
     techTemplate.str("");
     techTemplate.clear();
 
@@ -135,34 +135,69 @@ void RegFile::constructTemplate() {
         getline(tpl,line);
         if(line.find("addrRow") != string::npos) {
             techTemplate << "<addrRow>  " << log2(inp.n_rows) << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <addrRow> log2(inp.n_rows) = " << log2(inp.n_rows) << std::endl;
+            #endif
 
         } else if(line.find("<NR_sweep>") != string::npos) {
             techTemplate << "<NR_sweep>  " << inp.n_rows << endl;
-
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <NR_sweep> n_rows = " << inp.n_rows << std::endl;
+            #endif
 
         } else if(line.find("<addrCol>") != string::npos) {
             techTemplate << "<addrCol>  " << log2(inp.n_colMux) << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <addrCol> log2(n_colMux) = " << log2(inp.n_colMux) << std::endl;
+            #endif
 
         } else if(line.find("<numBanks>") != string::npos) {
             techTemplate << "<numBanks>  " << inp.n_banks << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <numBanks> n_banks = " << inp.n_banks << std::endl;
+            #endif
 
         } else if(line.find("<memsize>") != string::npos) {
             techTemplate << "<memsize>  " << inp.memory_size << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <memsize> memory_size = " << inp.memory_size << std::endl;
+            #endif
 
         } else if(line.find("<ws>") != string::npos) {
             techTemplate << "<ws>  " << inp.word_size << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <ws> word_size = " << inp.word_size << std::endl;
+            #endif
 
         } else if(line.find("<NC_sweep>") != string::npos) {
             techTemplate << "<NC_sweep> " << inp.n_colMux * inp.word_size << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <NC_sweep> n_colMux * word_size  = " << inp.n_colMux * inp.word_size << std::endl;
+            #endif
 
         } else if(line.find("<colMux>") != string::npos) {
             techTemplate << "<colMux> " << inp.n_colMux << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <colMux> n_colMux = " << inp.n_colMux << std::endl;
+            #endif
 
         } else if(line.find("<temp>") != string::npos) {
             techTemplate << "<temp> " << inp.temp << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <temp> temp = " << inp.temp << std::endl;
+            #endif
 
         } else if(line.find("<BL_DIFF>") != string::npos) {
             techTemplate << "<BL_DIFF> " << inp.SAoffset << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <BL_DIFF> SAoffset = " << inp.SAoffset << std::endl;
+            #endif
+
+        } else if(line.find("<pvdd>") != string::npos) {
+            techTemplate << "<pvdd> " << inp.vdd << endl;
+            #ifdef NODEBUG
+            std::cout << "(simulate templ generate) <pvdd> pvdd = " << inp.vdd << std::endl;
+            #endif
 
         } else {
             techTemplate << line << endl;
@@ -172,15 +207,15 @@ void RegFile::constructTemplate() {
 
     // Add the Gate Cap, cbl, cwl, rbl to the template
     techTemplate << "\
-    <cg>\t" << gateCap << "\
-    \n\
-    \n####################\n\
-      # Metal Parasitics\n\
-      ####################\n\
-    <rbl>\t" << rbl << "\n\
-    <cbl>\t" << cbl << "\n\
-    <cwl>\t" << cwl << "\n\
-    <char>\t0\n";
+<cg>\t" << gateCap << "\
+\n\
+\n####################\n\
+  # Metal Parasitics\n\
+  ####################\n\
+<rbl>\t" << rbl << "\n\
+<cbl>\t" << cbl << "\n\
+<cwl>\t" << cwl << "\n\
+<char>\t0\n";
 
     // Copy Bitcell dimensions
     // TODO - Needs to be generic
@@ -188,9 +223,9 @@ void RegFile::constructTemplate() {
     // Add BC info to the template
     ifstream bc("../configuration/bitcellSizes.m");
     techTemplate << "\
-    #############################\n\
-    # Bitcell device dimensions\n\
-    #############################\n";
+#############################\n\
+# Bitcell device dimensions\n\
+#############################\n";
     if(!bc.is_open()) {
         cerr << "Error: Can't open bitcellSizes.m file.\n";
         exit(1);
@@ -233,7 +268,6 @@ void RegFile::rmPrevResults() {
 }
 
 void RegFile::simulate(string tests) {
-    cout << "start simulation" << endl;
     // Run all tests
     if(tests.empty()) {
         SA.simulate(techTemplate.str());
@@ -250,26 +284,47 @@ void RegFile::simulate(string tests) {
     if(tests == "SA") {
         SA.simulate(techTemplate.str());
     }
-    cout << "simulation done" << endl;
 }
 
 void RegFile::extractOutput() {
+    #ifdef DEBUG
     cout << "start extracting output" << endl;
+    #endif
+
     SA.extractOutput();
+    #ifdef DEBUG
     cout << "SA Output extracted" << endl;
+    #endif
+
     RD.extractOutput();
+    #ifdef DEBUG
     cout << "RD Output extracted" << endl;
+    #endif
+
     //CM.extractOutput();
+
     BC.extractOutput();
+    #ifdef DEBUG
     cout << "BC Output extracted" << endl;
+    #endif
+
     TB.extractOutput();
+    #ifdef DEBUG
     cout << "TB Output extracted" << endl;
+    #endif
+
     //WD.extractOutput();
+
     ioDFF.extractOutput();
+    #ifdef DEBUG
     cout << "ioDFF Output extracted" << endl;
+    #endif
+
     BM.extractOutput();
+    #ifdef DEBUG
     cout << "BM Output extracted" << endl;
     cout << "output extraction done" << endl;
+    #endif
 }
 
 void RegFile::print() {

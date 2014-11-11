@@ -17,13 +17,13 @@ int main()
 	CT->redefineKnobs();
 	//CT->printInputParam();
 	CT->runCharTests();
-    /*
 	CT->checkInputParam();
 	//CT->simulate();
     //CT->sweep();
 	//CT->execOptimize();
 	CT->runBruteForce();
 
+    /*
 	float rE,rD, wE, wD;
 	rE=88;
 	rD=99;

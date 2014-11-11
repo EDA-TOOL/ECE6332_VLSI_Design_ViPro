@@ -2,7 +2,7 @@ CC = g++
 INCLUDE =
 LIB =
 ELFFILE = regFileBin
-DEBUG_FLAG = NODEBUG
+DEBUG_FLAG = NOTDEBUG
 
 all: $(ELFFILE)
 
