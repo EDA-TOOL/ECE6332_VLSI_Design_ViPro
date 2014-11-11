@@ -11,8 +11,8 @@ int main()
 {
 	calculator* CT = new calculator;
 	CT->parseInputFile();
-    /*
 	CT->createRegFile();
+    /*
 	CT->rmPrevResults();
 	//CT->printInputParam();
 	CT->redefineKnobs();

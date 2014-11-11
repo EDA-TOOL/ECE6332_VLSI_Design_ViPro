@@ -57,6 +57,43 @@ void calculator::createRegFile() {
     //sram = new RegFile;
     regfile = new RegFile;
     regfile->setInput(inputHandle);
+    std::cout << "tech = " << inputHandle.technology << std::endl;
+    std::cout << "memory_size = " << inputHandle.memory_size << std::endl;
+    std::cout << "n_banks = " << inputHandle.n_banks << std::endl;
+    std::cout << "n_colMux = " << inputHandle.n_colMux << std::endl;
+    std::cout << "n_rows = " << inputHandle.n_rows << std::endl;
+    std::cout << "word_size = " << inputHandle.word_size << std::endl;
+    std::cout << "SAoffset = " << inputHandle.SAoffset << std::endl;
+    std::cout << "BCheight = " << inputHandle.BCheight << std::endl;
+    std::cout << "BCwidth = " << inputHandle.BCwidth << std::endl;
+    std::cout << "energy_constraint = " << inputHandle.energy_constraint << std::endl;
+    std::cout << "delay_constraint = " << inputHandle.delay_constraint << std::endl;
+    std::cout << "WDwidth = " << inputHandle.WDwidth << std::endl;
+    std::cout << "temp = " << inputHandle.temp << std::endl;
+    std::cout << "vdd = " << inputHandle.vdd << std::endl;
+    std::cout << "TASEpath = " << inputHandle.TASEpath << std::endl;
+    std::cout << "knobCount = " << inputHandle.knobCount << std::endl;
+    for(int i=0; i<20; ++i)
+    {
+        std::cout << "knobMin = " << inputHandle.knobMin[i] << std::endl;
+        std::cout << "knobMax = " << inputHandle.knobMax[i] << std::endl;
+        std::cout << "knobName = " << inputHandle.knobName[i] << std::endl;
+    }
+    std::cout << "calNumBanks = " << inputHandle.calNumBanks << std::endl;
+    std::cout << "minNumBanks = " << inputHandle.minNumBanks << std::endl;
+    std::cout << "maxNumBanks = " << inputHandle.maxNumBanks << std::endl;
+    std::cout << "calNumColMux = " << inputHandle.calNumColMux << std::endl;
+    std::cout << "minNumColMux = " << inputHandle.minNumColMux << std::endl;
+    std::cout << "maxNumColMux = " << inputHandle.maxNumColMux << std::endl;
+    std::cout << "WLBoost = " << inputHandle.WLBoost << std::endl;
+    std::cout << "WLOffset = " << inputHandle.WLOffset << std::endl;
+    std::cout << "PCratio = " << inputHandle.PCratio << std::endl;
+    std::cout << "WLratio = " << inputHandle.WLratio << std::endl;
+    std::cout << "sweepToken = " << inputHandle.sweepToken << std::endl;
+    std::cout << "sweepBegin = " << inputHandle.sweepBegin << std::endl;
+    std::cout << "sweepEnd " << inputHandle.sweepEnd << std::endl;
+    std::cout << "sweepStep" << inputHandle.sweepStep << std::endl;
+    std::cout << "sweepOutput" << inputHandle.sweepOutput << std::endl;
 }
 
 void calculator::rmPrevResults() {
