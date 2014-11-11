@@ -224,7 +224,9 @@ int parser::parseKNOBS(string& str) {
         if(pmatch[2].rm_so != -1) {
             input_handle.knobMin[count] = atof((str.substr(pmatch[2].rm_so, pmatch[2].rm_eo - pmatch[2].rm_so)).c_str());
             input_handle.knobMax[count] = atof((str.substr(pmatch[4].rm_so, pmatch[4].rm_eo - pmatch[4].rm_so)).c_str());
+            #ifdef DEBUG
             cout << "knob = " << input_handle.knobName[count] << " min = " << input_handle.knobMin[count] << " max = " << input_handle.knobMax[count] << endl;
+            #endif
         }
         str.erase(pmatch[0].rm_so, pmatch[0].rm_eo - pmatch[0].rm_so);
 

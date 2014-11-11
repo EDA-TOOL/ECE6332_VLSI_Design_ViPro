@@ -57,6 +57,7 @@ void calculator::createRegFile() {
     //sram = new RegFile;
     regfile = new RegFile;
     regfile->setInput(inputHandle);
+    #ifdef DEBUG2
     std::cout << "tech = " << inputHandle.technology << std::endl;
     std::cout << "memory_size = " << inputHandle.memory_size << std::endl;
     std::cout << "n_banks = " << inputHandle.n_banks << std::endl;
@@ -94,6 +95,7 @@ void calculator::createRegFile() {
     std::cout << "sweepEnd = " << inputHandle.sweepEnd << std::endl;
     std::cout << "sweepStep = " << inputHandle.sweepStep << std::endl;
     std::cout << "sweepOutput = " << inputHandle.sweepOutput << std::endl;
+    #endif
 }
 
 void calculator::rmPrevResults() {
@@ -245,21 +247,24 @@ void calculator::execOptimize() {
 // values of rows and colMux.
 void calculator::redefineKnobs() {
     // Check which system level knob is defined in the user.m file
-    bool tune_rows, tune_colMux, tune_banks = false;
+    bool tune_rows = false;
+    bool tune_colMux = false;
+    bool tune_banks = false;
     for(int i=0; i < inputHandle.knobCount; ++i)
     {
         string name = inputHandle.knobName[i];
         if (!strcmp(name.c_str(),"NBANKS")) {
-        		tune_banks = true;
+            tune_banks = true;
         } else if(!strcmp(name.c_str(),"NCOLS")) {
-        		tune_colMux = true;
+            tune_colMux = true;
         } else if(!strcmp(name.c_str(),"NROWS")) {
-        		tune_rows = true;
+            tune_rows = true;
         }
     }
     // Determine which knobs will be used
     // others will be calculated
-    bool add_rows, add_colMux = false;
+    bool add_rows = false;
+    bool add_colMux = false;
 
     // Add rows & colM to the knobs
     if(tune_banks && tune_colMux && tune_rows) {
@@ -298,26 +303,32 @@ void calculator::redefineKnobs() {
             if(!strcmp(inputHandle.knobName[i].c_str(),"NBANKS") && inputHandle.calNumBanks) {
                 inputHandle.minNumBanks = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumBanks = (int)inputHandle.knobMax[i];
-            #ifdef DEBUG
+                #ifdef NODEBUG
                 std::cout << "(redefineKnobs) NBANKS Min: " << inputHandle.minNumBanks << std::endl;
                 std::cout << "(redefineKnobs) NBANKS Max: " << inputHandle.maxNumBanks << std::endl;
-            #endif
+                #endif
             }
             else if(!strcmp(inputHandle.knobName[i].c_str(),"NCOLS") && inputHandle.calNumColMux) {
                 inputHandle.minNumColMux = (int)inputHandle.knobMin[i];
                 inputHandle.maxNumColMux = (int)inputHandle.knobMax[i];
-            #ifdef DEBUG
+                #ifdef NODEBUG
                 std::cout << "(redefineKnobs) NCOLS Min: " << inputHandle.minNumColMux << std::endl;
                 std::cout << "(redefineKnobs) NCOLS Max: " << inputHandle.maxNumColMux << std::endl;
-            #endif
+                #endif
             }
         }
         else
         {
-                newknobName[newknobCount] = inputHandle.knobName[i];
-                newknobMin[newknobCount] = inputHandle.knobMin[i];
-                newknobMax[newknobCount] = inputHandle.knobMax[i];
-                ++newknobCount;
+            newknobName[newknobCount] = inputHandle.knobName[i];
+            newknobMin[newknobCount] = inputHandle.knobMin[i];
+            newknobMax[newknobCount] = inputHandle.knobMax[i];
+            ++newknobCount;
+            #ifdef NODEBUG
+            std::cout << "(redefineKnobs) newknobName[" << newknobCount << "] = " << newknobName[newknobCount] << std::endl;
+            std::cout << "(redefineKnobs) newknobMin[" << newknobCount << "] = " << newknobMin[newknobCount] << std::endl;
+            std::cout << "(redefineKnobs) newknobMax[" << newknobCount << "] = " << newknobMax[newknobCount] << std::endl;
+            std::cout << "(redefineKnobs) newknobCount = " << newknobCount <<  std::endl;
+            #endif
         }
     }
 
@@ -328,10 +339,10 @@ void calculator::redefineKnobs() {
         inputHandle.knobName[i] = newknobName[i];
         inputHandle.knobMin[i] = newknobMin[i];
         inputHandle.knobMax[i] = newknobMax[i];
-        #ifdef DEBUG
-        std::cout << "(redefineKnobs) NewKnob Name: " << newknobName[i] << std::endl;
-        std::cout << "(redefineKnobs) NewKnob Min: " << newknobMin[i] << std::endl;
-        std::cout << "(redefineKnobs) NewKnob Max: " << newknobMax[i] << std::endl;
+        #ifdef NODEBUG
+        std::cout << "(overwriting) inputHandle.knobName[" << i << "] = " << inputHandle.knobName[i] << std::endl;
+        std::cout << "(overwriting) inputHandle.knobMin[" << i << "] = " << inputHandle.knobMin[i] << std::endl;
+        std::cout << "(overwriting) inputHandle.knobMax[" << i << "] = " << inputHandle.knobMax[i] << std::endl;
         #endif
     }
 }
