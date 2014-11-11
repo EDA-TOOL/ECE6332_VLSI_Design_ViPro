@@ -51,7 +51,7 @@ wnio = 8;
 % number of predecode and WL buffer stages
 %decStages=[2,1];
 
-tasePath = /var/home/sc7cq/RegFileViPro/TASE;
+tasePath = /net/plato.ee.virginia.edu/misan1/users/bengroup/workspace/ningxi/RegFileViPro-master/RegFileViPro/TASE;
 
 % Commands, either SWEEP, OPTIMIZE, CALCULATE
 %SWEEP SAoffset 0.05 0.3 0.05 ./sweep.txt
