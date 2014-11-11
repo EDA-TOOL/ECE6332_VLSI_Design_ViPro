@@ -327,9 +327,9 @@ void calculator::redefineKnobs() {
             ++newknobCount;
             #ifdef NODEBUG
             std::cout << "(redefineKnobs) i: " << i << std::endl;
-            std::cout << "(redefineKnobs) newknobName[" << newknobCount << "] = " << newknobName[newknobCount] << std::endl;
-            std::cout << "(redefineKnobs) newknobMin[" << newknobCount << "] = " << newknobMin[newknobCount] << std::endl;
-            std::cout << "(redefineKnobs) newknobMax[" << newknobCount << "] = " << newknobMax[newknobCount] << std::endl;
+            std::cout << "(redefineKnobs) newknobName[" << newknobCount-1 << "] = " << inputHandle.knobName[i] << std::endl;
+            std::cout << "(redefineKnobs) newknobMin[" << newknobCount-1 << "] = " << inputHandle.knobMin[i] << std::endl;
+            std::cout << "(redefineKnobs) newknobMax[" << newknobCount-1 << "] = " << inputHandle.knobMax[i] << std::endl;
             std::cout << "(redefineKnobs) newknobCount = " << newknobCount <<  std::endl;
             #endif
         }
