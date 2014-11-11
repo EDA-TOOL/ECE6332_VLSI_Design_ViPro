@@ -56,9 +56,9 @@ void RegFile::charGateCap() {
         exit(1);
     }
     new_tpl << "\n\
-    <ocn>\n\
-    RVP_Gate_Capacitance\n\
-    </ocn>\n";
+<ocn>\n\
+RVP_Gate_Capacitance\n\
+</ocn>\n";
 
     newtpl << new_tpl.str();
     newtpl.close();
