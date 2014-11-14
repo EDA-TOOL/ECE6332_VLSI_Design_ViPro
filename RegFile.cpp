@@ -272,6 +272,7 @@ void RegFile::simulate(string tests) {
     // Run all tests
     if(test2run.empty()) {
         SA.simulate(techTemplate.str());
+        /*
         RD.simulate(techTemplate.str());
         //CM.simulate(techTemplate.str());
         BC.simulate(techTemplate.str());
@@ -279,6 +280,7 @@ void RegFile::simulate(string tests) {
         //WD.simulate(techTemplate.str());
         ioDFF.simulate(techTemplate.str());
         BM.simulate(techTemplate.str());
+        */
         return;
     }
     // Run specified test2run
@@ -313,6 +315,7 @@ void RegFile::simulate(string tests) {
 void RegFile::extractOutput() {
     if(test2run.empty()) {
         SA.extractOutput();
+        /*
         RD.extractOutput();
         //CM.extractOutput();
         BC.extractOutput();
@@ -320,6 +323,7 @@ void RegFile::extractOutput() {
         //WD.extractOutput();
         ioDFF.extractOutput();
         BM.extractOutput();
+        */
     }
     else if(test2run == "SA") {
         /*

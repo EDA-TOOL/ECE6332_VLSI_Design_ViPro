@@ -112,7 +112,7 @@ void calculator::runCharTests() {
 void calculator::simulate() {
     regfile->rmPrevResults();
     regfile->constructTemplate();
-    regfile->simulate("SA");
+    regfile->simulate("");
     regfile->extractOutput();
 }
 
