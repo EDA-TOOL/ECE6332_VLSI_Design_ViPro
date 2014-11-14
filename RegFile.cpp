@@ -325,6 +325,7 @@ void RegFile::extractOutput() {
         string filename = "Subtest_" + test2run + ".log";
         ofstream ofile(filename.c_str());
         float SAenergy, SAdelay;
+        SA.extractOutput();
         getSAED(SAenergy, SAdelay);
         ofile << "SAenergy: " << SAenergy << endl;
         ofile << "SAdelay: " << SAdelay << endl;
