@@ -272,7 +272,6 @@ void RegFile::simulate(string tests) {
     // Run all tests
     if(test2run.empty()) {
         SA.simulate(techTemplate.str());
-        /*
         RD.simulate(techTemplate.str());
         //CM.simulate(techTemplate.str());
         BC.simulate(techTemplate.str());
@@ -280,7 +279,6 @@ void RegFile::simulate(string tests) {
         //WD.simulate(techTemplate.str());
         ioDFF.simulate(techTemplate.str());
         BM.simulate(techTemplate.str());
-        */
         return;
     }
     // Run specified test2run
@@ -315,7 +313,6 @@ void RegFile::simulate(string tests) {
 void RegFile::extractOutput() {
     if(test2run.empty()) {
         SA.extractOutput();
-        /*
         RD.extractOutput();
         //CM.extractOutput();
         BC.extractOutput();
@@ -323,10 +320,8 @@ void RegFile::extractOutput() {
         //WD.extractOutput();
         ioDFF.extractOutput();
         BM.extractOutput();
-        */
     }
     else if(test2run == "SA") {
-        /*
         string filename = "Subtest_" + test2run + ".log";
         ofstream ofile(filename.c_str());
         float SAenergy, SAdelay;
@@ -334,12 +329,8 @@ void RegFile::extractOutput() {
         getSAED(SAenergy, SAdelay);
         ofile << "SAenergy: " << SAenergy << endl;
         ofile << "SAdelay: " << SAdelay << endl;
+        ofile << endl;
         ofile.close();
-        */
-        float SAenergy, SAdelay;
-        SA.extractOutput();
-        getSAED(SAenergy, SAdelay);
-        std::cout << "SA energy: " << SAenergy << "\nSA delay: " << SAdelay << std::endl;
     }
     else if(test2run == "RD") {
         string filename = "Subtest_" + test2run + ".log";
