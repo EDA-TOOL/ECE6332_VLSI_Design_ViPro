@@ -283,7 +283,8 @@ void RegFile::simulate(string tests) {
     }
     // Run specified test2run
     if(test2run == "SA") {
-        SA.simulate(techTemplate.str());
+        std::cout << "run SA test only" << std::endl;
+        //SA.simulate(techTemplate.str());
     }
     else if(test2run == "RD") {
         RD.simulate(techTemplate.str());
@@ -322,6 +323,7 @@ void RegFile::extractOutput() {
         BM.extractOutput();
     }
     else if(test2run == "SA") {
+        /*
         string filename = "Subtest_" + test2run + ".log";
         ofstream ofile(filename.c_str());
         float SAenergy, SAdelay;
@@ -330,6 +332,11 @@ void RegFile::extractOutput() {
         ofile << "SAenergy: " << SAenergy << endl;
         ofile << "SAdelay: " << SAdelay << endl;
         ofile.close();
+        */
+        float SAenergy, SAdelay;
+        SA.extractOutput();
+        getSAED(SAenergy, SAdelay);
+        std::cout << "SA energy: " << SAenergy << "\nSA delay: " << SAdelay << std::endl;
     }
     else if(test2run == "RD") {
         string filename = "Subtest_" + test2run + ".log";
