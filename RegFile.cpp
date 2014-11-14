@@ -283,8 +283,7 @@ void RegFile::simulate(string tests) {
     }
     // Run specified test2run
     if(test2run == "SA") {
-        std::cout << "run SA test only" << std::endl;
-        //SA.simulate(techTemplate.str());
+        SA.simulate(techTemplate.str());
     }
     else if(test2run == "RD") {
         RD.simulate(techTemplate.str());
