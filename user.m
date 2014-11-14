@@ -64,5 +64,8 @@ OPTIMIZE OBJECTIVE
 	   NBANKS 1 32
 	   NCOLS 1 8
 	   NROWS 32 512
+       %EXNBANKS 4 8
+       %EXNCOLS 4
+       %EXNROWS 64 128
 	   
 

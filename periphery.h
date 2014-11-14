@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <math.h>
 
-class SRAMSubblock {
+class RFSubblock {
 	public:
         userInput* input;
         string tasePath;
@@ -21,7 +21,7 @@ class SRAMSubblock {
         string constructTempelate(string testName, string techTemp, string testInfo);
 };
 
-class DFF: public SRAMSubblock {
+class DFF: public RFSubblock {
         public:
         DFF();
         DFF(userInput& uInp);
@@ -42,7 +42,7 @@ class DFF: public SRAMSubblock {
         float energy_DFF_w;
 };
 
-class senseAmp : public SRAMSubblock {
+class senseAmp : public RFSubblock {
     public:
         senseAmp();
         senseAmp(userInput& uInp);
@@ -65,7 +65,7 @@ class senseAmp : public SRAMSubblock {
 
 };
 
-class rowDecoder : public SRAMSubblock {
+class rowDecoder : public RFSubblock {
 	public:
         rowDecoder();
         rowDecoder(userInput& uInp);
@@ -85,7 +85,7 @@ class rowDecoder : public SRAMSubblock {
 };
 
 // should be included somehow
-class colMux : public SRAMSubblock {
+class colMux : public RFSubblock {
     public:
         colMux();
         colMux(userInput& uInp);
@@ -95,7 +95,7 @@ class colMux : public SRAMSubblock {
     private:
 };
 
-class bitCell : public SRAMSubblock {
+class bitCell : public RFSubblock {
     public:
         bitCell();
         bitCell(userInput& uInp);
@@ -149,7 +149,7 @@ class bitCell : public SRAMSubblock {
         float leakage_power;
 };
 
-class timingBlock : public SRAMSubblock {
+class timingBlock : public RFSubblock {
     public:
         timingBlock();
         timingBlock(userInput& uInp);
@@ -166,7 +166,7 @@ class timingBlock : public SRAMSubblock {
 
 // Needs to separate the driver
 // from the SRAM bitcell test
-class writeDriver : public SRAMSubblock {
+class writeDriver : public RFSubblock {
     public:
         writeDriver();
         writeDriver(userInput& uInp);
@@ -179,7 +179,7 @@ class writeDriver : public SRAMSubblock {
 
 // Q: Why colMux is ignored?
 // Q: Why energy is ignored in bankmux?
-class bankMux : public SRAMSubblock {
+class bankMux : public RFSubblock {
     public:
         bankMux();
         bankMux(userInput& uInp);

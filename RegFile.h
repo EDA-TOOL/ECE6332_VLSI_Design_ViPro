@@ -20,6 +20,12 @@ class RegFile {
         void print();
         void calculateReadED(float& read_energy, float& read_delay);
         void calculateWriteED(float& write_energy, float& write_delay);
+        void getSAED(float& SAenergy, float& SAdelay);
+        void getRDED(float& RDenergy, float& RDdelay);
+        void getBCED(float& BCenergy, float& BCdelay);
+        void getTBED(float& TBenergy);
+        void getDFFED(float& DFFenergy, float& DFFdelay);
+        void getBMED(float& BMenergy, float& BMdelay);
         void runTASE(string tempPath);
 
     private:
@@ -34,6 +40,7 @@ class RegFile {
         DFF ioDFF;
         bankMux BM;
         stringstream techTemplate;
+        string test2run;
 
         double gateCap;
         double rbl;

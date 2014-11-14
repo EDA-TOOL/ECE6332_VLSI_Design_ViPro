@@ -571,7 +571,7 @@ void calculator::runBruteForce()
             count = inputHandle.knobMax[i] - inputHandle.knobMin[i];
         }
         num_iterations *= count;
-        #ifdef NODEBUG
+        #ifdef DEBUG
         std::cout << "(loop #1) i = " << i << std::endl;
         std::cout << "(loop #1) inputHandle.knobName[" << i << "] = " << inputHandle.knobName[i] << std::endl;
         std::cout << "(loop #1) count = " << count << std::endl;
@@ -581,7 +581,7 @@ void calculator::runBruteForce()
     // Double number of iterations if WLBoosting is used
     if(inputHandle.WLBoost) {
         num_iterations *= 2;
-        #ifdef NODEBUG
+        #ifdef DEBUG
         std::cout << "(WLboost) num_iterations = " << num_iterations << std::endl;
         #endif
     }
@@ -592,7 +592,7 @@ void calculator::runBruteForce()
     // Loop over all the iterations
     for(int i=0; i < num_iterations; ++i)
     {
-        #ifdef NODEBUG
+        #ifdef DEBUG
         cout << "(loop #2) iterations (i/all) = " << i+1 << "/" << num_iterations << endl;
         #endif
 
@@ -608,7 +608,7 @@ void calculator::runBruteForce()
         if(i == 0) {
             for(int i=0; i < inputHandle.knobCount; ++i) {
                 knob_curr_val[i] = inputHandle.knobMin[i];
-                #ifdef NODEBUG
+                #ifdef DEBUG
                 cout << "(loop #2 init) knob_curr_val[" << i << "] = " << knob_curr_val[i] << endl;
                 #endif
             }
@@ -630,25 +630,25 @@ void calculator::runBruteForce()
                        inputHandle.knobName[j] == "NROWS")
                     {
                         sysKnob = true;
-                        #ifdef NODEBUG
+                        #ifdef DEBUG
                         std::cout << "(loop #3 sysknob) inputHandle.knobName[" << j << "] = " << inputHandle.knobName[j] << std::endl;
                         #endif
                     }
                     // Update the knobs values
                     if(knob_curr_val[j] >= inputHandle.knobMax[j]) {
                         knob_curr_val[j] = inputHandle.knobMin[j];
-                        #ifdef NODEBUG
+                        #ifdef DEBUG
                         cout << "(loop #3 update knobs if) knob_curr_val[" << j << "] = " << knob_curr_val[j] << endl;
                         #endif
                     } else {
                         if(sysKnob) {
                             knob_curr_val[j] *= 2;
-                            #ifdef NODEBUG
+                            #ifdef DEBUG
                             cout << "(loop #3 update knobs else) knob_curr_val[" << j << "] = " << knob_curr_val[j] << endl;
                             #endif
                         } else {
                             knob_curr_val[j] += 1;
-                            #ifdef NODEBUG
+                            #ifdef DEBUG
                             cout << "(loop #3 update non-sys knobs else) knob_curr_val[" << j << "] = " << knob_curr_val[j] << endl;
                             #endif
                         }
@@ -657,12 +657,12 @@ void calculator::runBruteForce()
                     // knob to update for this iteration
                     if(sysKnob) {
                         count *= (int)(log2(inputHandle.knobMax[j] / inputHandle.knobMin[j]) + 1);
-                        #ifdef NODEBUG
+                        #ifdef DEBUG
                         std::cout << "(sysknob evaluate) count  = " << count << std::endl;
                         #endif
                     } else {
                         count *= (int)(inputHandle.knobMax[j] - inputHandle.knobMin[j]);
-                        #ifdef NODEBUG
+                        #ifdef DEBUG
                         std::cout << "(non-sysknob evaluate) count  = " << count << std::endl;
                         #endif
                     }
@@ -677,12 +677,12 @@ void calculator::runBruteForce()
                string name = inputHandle.knobName[j];
                if(!strcmp(name.c_str(),"NCOLS")) {
                     inputHandle.n_colMux = (int)knob_curr_val[j];
-                    #ifdef NODEBUG
+                    #ifdef DEBUG
                     std::cout << "(copy knob value) inputHandle.n_colMux = " << inputHandle.n_colMux << std::endl;
                     #endif
                } else if(!strcmp(name.c_str(),"NROWS")) {
                     inputHandle.n_rows = (int)knob_curr_val[j];
-                    #ifdef NODEBUG
+                    #ifdef DEBUG
                     std::cout << "(copy knob value) inputHandle.n_rows = " << inputHandle.n_rows << std::endl;
                     #endif
                }
@@ -693,7 +693,7 @@ void calculator::runBruteForce()
         bool invalid = false;
         if(inputHandle.calNumBanks) {
             inputHandle.n_banks =  inputHandle.memory_size / (inputHandle.n_colMux * inputHandle.n_rows * inputHandle.word_size);
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(evaluate n_banks) inputHandle.n_banks = " << inputHandle.n_banks << std::endl;
             #endif
             // Check range
@@ -704,7 +704,7 @@ void calculator::runBruteForce()
         }
         if(inputHandle.calNumColMux) {
             inputHandle.n_colMux =  inputHandle.memory_size / (inputHandle.n_banks * inputHandle.n_rows * inputHandle.word_size);
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(evaluate n_colMux) inputHandle.n_colMux = " << inputHandle.n_colMux << std::endl;
             #endif
             // Check range
@@ -717,7 +717,7 @@ void calculator::runBruteForce()
         // Skip this iteration - Invalid design
         if(invalid)
         {
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "invalid knob, skip current iteration" << std::endl;
             #endif
             continue;

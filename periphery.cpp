@@ -1,19 +1,19 @@
 #include "periphery.h"
 
-void SRAMSubblock::runTASE(string tempPath) {
+void RFSubblock::runTASE(string tempPath) {
     stringstream sst;
     cout << "perl " << tasePath << "/device/BIN/run.pl -i " << tempPath << endl;
     sst << "perl " << tasePath << "/device/BIN/run.pl -i " << tempPath;
     system(sst.str().c_str());
 }
 
-void SRAMSubblock::moveResults(string test) {
+void RFSubblock::moveResults(string test) {
     stringstream mvcmd;
     mvcmd << "cp -fr " << tasePath << "/device/BIN/" << getenv("USER") << " ../results_v2/" << test;
     system(mvcmd.str().c_str());
 }
 
-string SRAMSubblock::constructTempelate(string testName, string techTemp, string testInfo) {
+string RFSubblock::constructTempelate(string testName, string techTemp, string testInfo) {
     stringstream templatePath;
     templatePath << tasePath << "/template/RVP_" << testName << tech << ".ini";
     ofstream ofile(templatePath.str().c_str());
@@ -613,7 +613,6 @@ void bankMux::extractOutput() {
     fileHandle.open("../results_v2/BM/RVP_Bank_Mux/data.txt");
     sst << fileHandle.rdbuf();
     sst >> dummy >> dummy >> energy_bankMux >> delay_bankMux >> energy_inter >> delay_inter;
-    //cout << fileHandle.good() << " - delay_bankSelect " << delay_bankSelect << " delay_bankOutput " << delay_bankOutput << endl;
     fileHandle.close();
 }
 
@@ -625,7 +624,6 @@ void bankMux::setInput(userInput& uImp) {
 
 void bankMux::print() {
     cout << "tasePath= " << tasePath <<  endl;
-    //cout << "delay_bankSelect= " << delay_bankSelect << "\n delay_bankOutput= " << delay_bankOutput << endl;
 }
 
 float bankMux::getBankMuxtDelay() {

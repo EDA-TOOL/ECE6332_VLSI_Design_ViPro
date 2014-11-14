@@ -268,63 +268,114 @@ void RegFile::rmPrevResults() {
 }
 
 void RegFile::simulate(string tests) {
+    test2run = tests;
     // Run all tests
-    if(tests.empty()) {
+    if(test2run.empty()) {
         SA.simulate(techTemplate.str());
         RD.simulate(techTemplate.str());
-        CM.simulate(techTemplate.str());
+        //CM.simulate(techTemplate.str());
         BC.simulate(techTemplate.str());
         TB.simulate(techTemplate.str());
-        WD.simulate(techTemplate.str());
+        //WD.simulate(techTemplate.str());
         ioDFF.simulate(techTemplate.str());
         BM.simulate(techTemplate.str());
         return;
     }
-    // Run specified tests
-    if(tests == "SA") {
+    // Run specified test2run
+    if(test2run == "SA") {
         SA.simulate(techTemplate.str());
+    }
+    else if(test2run == "RD") {
+        RD.simulate(techTemplate.str());
+    }
+    else if(test2run == "CM") {
+        CM.simulate(techTemplate.str());
+    }
+    else if(test2run == "BC") {
+        BC.simulate(techTemplate.str());
+    }
+    else if(test2run == "TB") {
+        TB.simulate(techTemplate.str());
+    }
+    else if(test2run == "WD") {
+        WD.simulate(techTemplate.str());
+    }
+    else if(test2run == "ioDFF") {
+        ioDFF.simulate(techTemplate.str());
+    }
+    else if(test2run == "BM") {
+        BM.simulate(techTemplate.str());
+    }
+    else {
     }
 }
 
 void RegFile::extractOutput() {
-    #ifdef DEBUG
-    cout << "start extracting output" << endl;
-    #endif
-
-    SA.extractOutput();
-    #ifdef DEBUG
-    cout << "SA Output extracted" << endl;
-    #endif
-
-    RD.extractOutput();
-    #ifdef DEBUG
-    cout << "RD Output extracted" << endl;
-    #endif
-
-    //CM.extractOutput();
-
-    BC.extractOutput();
-    #ifdef DEBUG
-    cout << "BC Output extracted" << endl;
-    #endif
-
-    TB.extractOutput();
-    #ifdef DEBUG
-    cout << "TB Output extracted" << endl;
-    #endif
-
-    //WD.extractOutput();
-
-    ioDFF.extractOutput();
-    #ifdef DEBUG
-    cout << "ioDFF Output extracted" << endl;
-    #endif
-
-    BM.extractOutput();
-    #ifdef DEBUG
-    cout << "BM Output extracted" << endl;
-    cout << "output extraction done" << endl;
-    #endif
+    if(test2run.empty()) {
+        SA.extractOutput();
+        RD.extractOutput();
+        //CM.extractOutput();
+        BC.extractOutput();
+        TB.extractOutput();
+        //WD.extractOutput();
+        ioDFF.extractOutput();
+        BM.extractOutput();
+    }
+    else if(test2run == "SA") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float SAenergy, SAdelay;
+        getSAED(SAenergy, SAdelay);
+        ofile << "SAenergy: " << SAenergy << endl;
+        ofile << "SAdelay: " << SAdelay << endl;
+        ofile.close();
+    }
+    else if(test2run == "RD") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float RDenergy, RDdelay;
+        getRDED(RDenergy, RDdelay);
+        ofile << "RDenergy: " << RDenergy << endl;
+        ofile << "RDdelay: " << RDdelay << endl;
+        ofile.close();
+    }
+    else if(test2run == "BC") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float BCenergy, BCdelay;
+        getBCED(BCenergy, BCdelay);
+        ofile << "BCenergy: " << BCenergy << endl;
+        ofile << "BCdelay: " << BCdelay << endl;
+        ofile.close();
+    }
+    else if(test2run == "TB") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float TBenergy;
+        getTBED(TBenergy);
+        ofile << "TBenergy: " << TBenergy << endl;
+        ofile.close();
+    }
+    else if(test2run == "ioDFF") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float DFFenergy, DFFdelay;
+        getDFFED(DFFenergy, DFFdelay);
+        ofile << "DFFenergy: " << DFFenergy << endl;
+        ofile << "DFFdelay: " << DFFdelay << endl;
+        ofile.close();
+    }
+    else if(test2run == "BM") {
+        string filename = "Subtest_" + test2run + ".log";
+        ofstream ofile(filename.c_str());
+        float BMenergy, BMdelay;
+        getBMED(BMenergy, BMdelay);
+        ofile << "BMenergy: " << BMenergy << endl;
+        ofile << "BMdelay: " << BMdelay << endl;
+        ofile.close();
+    }
+    else {
+    }
 }
 
 void RegFile::print() {
@@ -461,8 +512,76 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
 
     write_delay = delay_DFF+max(max(delay_inter_bc_read+delay_pch_w,delay_rowDecoder+delay_bm_inter),(max(delay_DFF_w-delay_DFF,delay_inter_bc_write)+delay_writeDriver))+delay_bitcell_w;
     write_energy = leakage_power*write_delay+energy_timing+energy_DFF_w+energy_rowDecoder+energy_writeDriver+energy_pch_w+energy_bitcell_w+energy_inter_bc_write+(2*energy_bm_inter)+energy_inter_bc_read;
+}
 
-    //cout << "write_delay = " << write_delay << " write_energy = " << write_energy << endl;
+
+void RegFile::getSAED(float& SAenergy, float& SAdelay) {
+    float SA_E = SA.getSAEnergy();
+    float SA_D = SA.getSADelay();
+
+    float INT_E = SA.getIntEnergy();
+    float INT_D = SA.getIntDelay();
+
+    SAenergy = SA_E + INT_E;
+    SAdelay = SA_D + INT_D;
+}
+
+void RegFile::getRDED(float& RDenergy, float& RDdelay) {
+    RDenergy = RD.getEnergy();
+    RDdelay = RD.getDelay();
+}
+
+void RegFile::getBCED(float& BCenergy, float& BCdelay) {
+    // pch_w - driving bitlines back to .95*VDD after write (current default)
+    float energy_pch_w = BC.getPCWEnergy();
+    float delay_pch_w = BC.getPCWDelay();
+
+    // write- ED to flip bitcell
+    float energy_bitcell_w = BC.getBCWEnergy();
+    float delay_bitcell_w = BC.getBCWDelay();
+
+    // only for write- delay measured driving bitline to VDD*.05
+    float energy_writeDriver = BC.getWDEnergy();
+    float delay_writeDriver = BC.getWDDelay();
+
+    // total leakage power from bitcells- converted later to leakage energy by multiplying by Tmin
+    float leakage_power = BC.getBCLeakage();
+
+    // Bit-cell interconnect delay
+    float energy_inter_bc_read = BC.getIntREenergy();
+    float energy_inter_bc_write = BC.getIntWEenergy();
+    float delay_inter_bc_read = BC.getIntRDelay();
+    float delay_inter_bc_write = BC.getIntWDelay();
+
+    // need to figure out a new equation
+    BCenergy = -1;
+    BCdelay = -1;
+}
+
+void RegFile::getTBED(float& TBenergy) {
+    TBenergy = TB.getEnergy();
+}
+
+void RegFile::getDFFED(float& DFFenergy, float& DFFdelay) {
+    float Rdelay = ioDFF.getRdelay();
+    float Renergy = ioDFF.getRenergy();
+
+    float Wdelay = ioDFF.getWdelay();
+    float Wenergy = ioDFF.getWenergy();
+
+    DFFdelay = Rdelay + Wdelay;
+    DFFenergy = Renergy + Wenergy;
+}
+
+void RegFile::getBMED(float& BMenergy, float& BMdelay) {
+    float BM_D = BM.getBankMuxtDelay();
+    float BM_E = BM.getBankMuxtEnergy();
+
+    float INT_D = BM.getIntDelay();
+    float INT_E = BM.getIntEnergy();
+
+    BMdelay = BM_D + INT_D ;
+    BMenergy = BM_E + INT_E;
 }
 
 void RegFile::runTASE(string tempPath) {
