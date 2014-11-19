@@ -135,67 +135,67 @@ void RegFile::constructTemplate() {
         getline(tpl,line);
         if(line.find("addrRow") != string::npos) {
             techTemplate << "<addrRow>  " << log2(inp.n_rows) << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <addrRow> log2(inp.n_rows) = " << log2(inp.n_rows) << std::endl;
             #endif
 
         } else if(line.find("<NR_sweep>") != string::npos) {
             techTemplate << "<NR_sweep>  " << inp.n_rows << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <NR_sweep> n_rows = " << inp.n_rows << std::endl;
             #endif
 
         } else if(line.find("<addrCol>") != string::npos) {
             techTemplate << "<addrCol>  " << log2(inp.n_colMux) << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <addrCol> log2(n_colMux) = " << log2(inp.n_colMux) << std::endl;
             #endif
 
         } else if(line.find("<numBanks>") != string::npos) {
             techTemplate << "<numBanks>  " << inp.n_banks << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <numBanks> n_banks = " << inp.n_banks << std::endl;
             #endif
 
         } else if(line.find("<memsize>") != string::npos) {
             techTemplate << "<memsize>  " << inp.memory_size << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <memsize> memory_size = " << inp.memory_size << std::endl;
             #endif
 
         } else if(line.find("<ws>") != string::npos) {
             techTemplate << "<ws>  " << inp.word_size << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <ws> word_size = " << inp.word_size << std::endl;
             #endif
 
         } else if(line.find("<NC_sweep>") != string::npos) {
             techTemplate << "<NC_sweep> " << inp.n_colMux * inp.word_size << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <NC_sweep> n_colMux * word_size  = " << inp.n_colMux * inp.word_size << std::endl;
             #endif
 
         } else if(line.find("<colMux>") != string::npos) {
             techTemplate << "<colMux> " << inp.n_colMux << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <colMux> n_colMux = " << inp.n_colMux << std::endl;
             #endif
 
         } else if(line.find("<temp>") != string::npos) {
             techTemplate << "<temp> " << inp.temp << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <temp> temp = " << inp.temp << std::endl;
             #endif
 
         } else if(line.find("<BL_DIFF>") != string::npos) {
             techTemplate << "<BL_DIFF> " << inp.SAoffset << endl;
-            #ifdef NODEBUG
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <BL_DIFF> SAoffset = " << inp.SAoffset << std::endl;
             #endif
 
         } else if(line.find("<pvdd>") != string::npos) {
-            techTemplate << "<pvdd> " << inp.vdd << endl;
-            #ifdef NODEBUG
+            techTemplate << "<pvdd> " << inp.vdd << ".0" << endl;
+            #ifdef DEBUG
             std::cout << "(simulate templ generate) <pvdd> pvdd = " << inp.vdd << std::endl;
             #endif
 
