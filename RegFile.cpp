@@ -194,7 +194,7 @@ void RegFile::constructTemplate() {
             #endif
 
         } else if(line.find("<pvdd>") != string::npos) {
-            std::cout << "(simulate templ generate) <pvdd> pvdd = " << inp.vdd << std::endl;
+            // if vdd=1.0, append a ".0"
             if(inp.vdd == 1)
                 techTemplate << "<pvdd> " << inp.vdd << ".0" << endl;
             else
@@ -327,7 +327,8 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "SA") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        //ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float SAenergy, SAdelay;
         SA.extractOutput();
         getSAED(SAenergy, SAdelay);
