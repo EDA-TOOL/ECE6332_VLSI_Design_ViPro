@@ -194,7 +194,8 @@ void RegFile::constructTemplate() {
             #endif
 
         } else if(line.find("<pvdd>") != string::npos) {
-            techTemplate << "<pvdd> " << inp.vdd << ".0" << endl;
+            techTemplate.precision(2);
+            techTemplate << "<pvdd> " << inp.vdd << endl;
             #ifdef DEBUG
             std::cout << "(simulate templ generate) <pvdd> pvdd = " << inp.vdd << std::endl;
             #endif
