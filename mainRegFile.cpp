@@ -9,14 +9,6 @@ using namespace std;
 
 int main()
 {
-    /*
-    string filename;
-    string test2run = "SA";
-    filename = "Subblock_" + test2run + ".log";
-    ofstream ofile(filename.c_str());
-    ofile << "haha";
-    ofile.close();
-    */
     calculator* CT = new calculator;
     CT->parseInputFile();
     CT->createRegFile();

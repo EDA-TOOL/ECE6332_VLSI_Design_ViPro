@@ -57,6 +57,8 @@ tasePath = /net/plato.ee.virginia.edu/misan1/users/bengroup/workspace/ningxi/Reg
 %SWEEP SAoffset 0.05 0.3 0.05 ./sweep.txt
 %SWEEP PCratio 5 10 1 ./sweep_pcratio.txt
 %SWEEP WLratio 1 4 1 ./sweep_wlratio.txt
+SWEEP pvdd 0.6 0.9 0.1 ./SWEEP_PVDD.log
+
 OPTIMIZE OBJECTIVE 
 	   ENERGY 0 
 	   DELAY 1.15
