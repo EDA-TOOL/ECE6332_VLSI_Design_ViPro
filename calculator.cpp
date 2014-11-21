@@ -127,10 +127,13 @@ void calculator::sweep() {
             inputHandle.SAoffset = var;
         }
         else if(!strcmp(inputHandle.sweepToken.c_str(), "PCratio")) {
-            inputHandle.PCratio = (int)var;
+            inputHandle.PCratio = (int) var;
         }
         else if(!strcmp(inputHandle.sweepToken.c_str(), "WLratio")) {
-            inputHandle.WLratio = (int)var;
+            inputHandle.WLratio = (int) var;
+        }
+        else if(!strcmp(inputHandle.sweepToken.c_str(), "pvdd")) {
+            inputHandle.vdd = var;
         }
         regfile->setInput(inputHandle);
 
