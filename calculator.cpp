@@ -134,7 +134,6 @@ void calculator::sweep() {
         }
         else if(!strcmp(inputHandle.sweepToken.c_str(), "pvdd")) {
             inputHandle.vdd = var;
-            std::cout << "pvdd = " << var << std::endl;
         }
         regfile->setInput(inputHandle);
 
