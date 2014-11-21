@@ -735,13 +735,30 @@ void calculator::runBruteForce()
         energy = rE + wE;
         delay = rD + wD;
 
+        for(int j=0; j < inputHandle.knobCount; ++j)
+            OutFile << inputHandle.knobName[j] << ";";
+        OutFile << "NBANKS;";
+        OutFile << "REnergy;" << "RDelay;";
+        OutFile << "WEnergy;" << "WDelay";
+        OutFile << endl;
+
+        for(int j=0; j < inputHandle.knobCount; ++j)
+            OutFile << knob_curr_val[j] << ";";
+
+        OutFile << inputHandle.n_banks << ";";
+        OutFile << rE << ";" << rD << ";";
+        OutFile << wE << ";" << wD << ";";
+        OutFile << endl;
+        /*
         // Print iteration info
         for(int j=0; j < inputHandle.knobCount; ++j)
-        OutFile << inputHandle.knobName[j] << " = " << knob_curr_val[j] << endl;
+            OutFile << inputHandle.knobName[j] << " = " << knob_curr_val[j] << endl;
+
         OutFile << "n_banks = " << inputHandle.n_banks << endl;
         OutFile << "Read Energy = " << rE << endl << "Read Delay = " << rD << endl;
         OutFile << "Write Energy = " << wE << endl << "Write Delay = " << wD << endl;
         OutFile << endl;
+        */
         #ifdef DEBUG
         print();
         #endif
