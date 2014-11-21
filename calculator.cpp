@@ -120,7 +120,7 @@ void calculator::sweep() {
     float rE, rD, wE, wD;
     ofstream ofile(inputHandle.sweepOutput.c_str());
     // TODO - Make it generic
-    for (float var = inputHandle.sweepBegin; var <= inputHandle.sweepEnd; var+=inputHandle.sweepStep) {
+    for (float var = inputHandle.sweepBegin; var < (inputHandle.sweepEnd + inputHandle.sweepStep); var += inputHandle.sweepStep) {
         // Modify the input
         // Determine the token
         if(!strcmp(inputHandle.sweepToken.c_str(), "SAoffset")) {
@@ -134,6 +134,7 @@ void calculator::sweep() {
         }
         else if(!strcmp(inputHandle.sweepToken.c_str(), "pvdd")) {
             inputHandle.vdd = var;
+            std::cout << "pvdd = " << var << std::endl;
         }
         regfile->setInput(inputHandle);
 
@@ -144,11 +145,12 @@ void calculator::sweep() {
         getED(rE,rD,wE, wD);
 
         // Write to output file
-        ofile << "\nSAOffset =" << var << endl;
+        ofile << inputHandle.sweepToken.c_str() << " = " << var << endl;
         ofile << "readEnergy= " << rE << endl;
         ofile << "readDelay= " << rD << endl;
         ofile << "writeEnergy= " << wE << endl;
         ofile << "writeDelay= " << wD << endl;
+        ofile << endl;
     }
     ofile.close();
 }
