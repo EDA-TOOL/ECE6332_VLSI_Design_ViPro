@@ -736,13 +736,6 @@ void calculator::runBruteForce()
         delay = rD + wD;
 
         for(int j=0; j < inputHandle.knobCount; ++j)
-            OutFile << inputHandle.knobName[j] << ";";
-        OutFile << "NBANKS;";
-        OutFile << "REnergy;" << "RDelay;";
-        OutFile << "WEnergy;" << "WDelay";
-        OutFile << endl;
-
-        for(int j=0; j < inputHandle.knobCount; ++j)
             OutFile << knob_curr_val[j] << ";";
 
         OutFile << inputHandle.n_banks << ";";
@@ -763,6 +756,14 @@ void calculator::runBruteForce()
         print();
         #endif
     } // End of iterations loop
+
+    for(int j=0; j < inputHandle.knobCount; ++j)
+        OutFile << inputHandle.knobName[j] << ";";
+    OutFile << "NBANKS;";
+    OutFile << "REnergy;" << "RDelay;";
+    OutFile << "WEnergy;" << "WDelay";
+    OutFile << endl;
+
     OutFile.close();
 }
 
