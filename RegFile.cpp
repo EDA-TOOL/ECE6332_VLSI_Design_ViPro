@@ -451,7 +451,9 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
 
 
     // Move leakage to staticE
-    read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux+delay_DFF;
+    // removed the last delay_DFF from read delay for the output data DFF delay should not be included.
+    //read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux+delay_DFF;
+    read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux;
     read_energy=leakage_power*read_delay+energy_timing+energy_DFF_r+energy_rowDecoder+energy_pch_r+energy_bitcell_r+energy_bankMux+energy_SA+energy_sa_inter+(2*energy_bm_inter)+energy_inter_bc_read;
 
     #ifdef DEBUG
