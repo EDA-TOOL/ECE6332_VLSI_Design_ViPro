@@ -149,7 +149,7 @@ float senseAmp::getIntEnergy() {
 void senseAmp::print() {
    //cout << "tasePath " << tasePath <<  endl;
     cout << "energy_SA= " << energy_SA << "\n delay_SA= " << delay_SA << endl;
-    cout << "energy_inter= " << energy_inter << "\n delay_inter= " << delay_inter << endl;
+    cout << "energy_SA_inter= " << energy_inter << "\n delay_SA_inter= " << delay_inter << endl;
 }
 
 rowDecoder::rowDecoder() {
@@ -434,7 +434,7 @@ void bitCell::print() {
     // Aren't they the same?
     cout << "tasePath " << tasePath <<  endl;
     cout << "delay_bitcell_r= "  << delay_bitcell_r << "\n energy_bitcell_r = " << energy_bitcell_r << endl;
-    cout << "delay_inter_read= " << delay_inter_read << "\n energy_inter_read= " << energy_inter_read << endl;
+    cout << "delay_inter_pch= " << delay_inter_read << "\n energy_inter_pch= " << energy_inter_read << endl;
     cout << "delay_pch_r= " << delay_pch_r << "\n energy_pch_r " << energy_pch_r << endl;
     cout << "delay_pch_w= " << delay_pch_w << "\n energy_pch_w= " << energy_pch_w << endl;
     cout << "delay_writeDriver= " << delay_writeDriver << "\n energy_writeDriver= " << energy_writeDriver << endl;
@@ -624,6 +624,8 @@ void bankMux::setInput(userInput& uImp) {
 
 void bankMux::print() {
     cout << "tasePath= " << tasePath <<  endl;
+    cout << "delay_BM= " << delay_bankMux << "\n energy_BM= " << energy_bankMux << endl;
+    cout << "delay_BM_inter= " << delay_inter << "\n energy_BM_inter= " << energy_inter << endl;
 }
 
 float bankMux::getBankMuxtDelay() {
