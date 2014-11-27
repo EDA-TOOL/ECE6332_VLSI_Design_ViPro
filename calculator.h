@@ -17,7 +17,7 @@ public:
     void createRegFile();
     void rmPrevResults();
     void runCharTests();
-    void simulate();
+    void simulate(string testname);
     void sweep();
     void constHash();
     float getR(int in);

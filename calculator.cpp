@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <math.h>
+#include <sys/stat.h>
 
 
 calculator::calculator() {
@@ -109,16 +110,16 @@ void calculator::runCharTests() {
     regfile->calculateTechRC();
 }
 
-void calculator::simulate() {
+void calculator::simulate(string testname) {
     regfile->rmPrevResults();
     regfile->constructTemplate();
-    regfile->simulate("");
+    regfile->simulate(testname);
     regfile->extractOutput();
 }
 
 void calculator::sweep() {
     float rE, rD, wE, wD;
-    ofstream ofile(inputHandle.sweepOutput.c_str());
+    struct stat buf;
     // TODO - Make it generic
     for (float var = inputHandle.sweepBegin; var < (inputHandle.sweepEnd + inputHandle.sweepStep); var += inputHandle.sweepStep) {
         // Modify the input
@@ -137,21 +138,35 @@ void calculator::sweep() {
         }
         regfile->setInput(inputHandle);
 
+        string testname = "";
         // Simulate
-        simulate();
+        simulate(testname);
 
         // Get new ED
-        getED(rE,rD,wE, wD);
+        getED(rE, rD, wE, wD);
 
         // Write to output file
-        ofile << inputHandle.sweepToken.c_str() << " = " << var << endl;
-        ofile << "readEnergy= " << rE << endl;
-        ofile << "readDelay= " << rD << endl;
-        ofile << "writeEnergy= " << wE << endl;
-        ofile << "writeDelay= " << wD << endl;
-        ofile << endl;
+        if (stat(inputHandle.sweepOutput.c_str(), &buf) != -1)
+        {
+            ofstream ofile(inputHandle.sweepOutput.c_str(), ofstream::out | ofstream::app);
+            ofile << var << ";";
+            ofile << rE << ";";
+            ofile << rD << ";";
+            ofile << wE << ";";
+            ofile << wD << endl;
+            ofile.close();
+        }
+        else
+        {
+            ofstream ofile(inputHandle.sweepOutput.c_str(), ofstream::out | ofstream::app);
+            ofile << inputHandle.sweepToken.c_str() << ";";
+            ofile << "readEnergy;";
+            ofile << "readDelay;";
+            ofile << "writeEnergy;";
+            ofile << "writeDelay" << endl;
+            ofile.close();
+        }
     }
-    ofile.close();
 }
 
 // Used for debugging
@@ -494,8 +509,9 @@ void calculator::optimize () {
     inputHandle.n_rows = (int)nr;
     regfile->setInput(inputHandle);
 
+    string testname = "";
     // Simulate
-    simulate();
+    simulate(testname);
 
     // Get new ED
     float rE,rD,wE, wD;
@@ -730,8 +746,9 @@ void calculator::runBruteForce()
         // update tokens
         regfile->setInput(inputHandle);
 
+        string testname = "";
         // Simulate
-        simulate();
+        simulate(testname);
 
         // Get new ED
         float rE,rD,wE, wD, energy, delay;
