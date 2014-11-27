@@ -34,12 +34,14 @@ class DFF: public RFSubblock {
         float getWdelay();
         float getWenergy();
         void print();
+        bool  isSuccess();
 
     private:
         float delay_DFF;
         float delay_DFF_w;
         float energy_DFF_r;
         float energy_DFF_w;
+        bool  successflag;
 };
 
 class senseAmp : public RFSubblock {
@@ -56,12 +58,14 @@ class senseAmp : public RFSubblock {
         float getIntDelay();
         float getIntEnergy();
         void print();
+        bool  isSuccess();
 
     private:
         float energy_SA;
         float delay_SA;
         float energy_inter;
         float delay_inter;
+        bool  successflag;
 
 };
 
@@ -76,11 +80,13 @@ class rowDecoder : public RFSubblock {
         float getEnergy();
         float getDelay();
         void print();
+        bool  isSuccess();
 
     private:
         int nRows;
         float energy_rowDecoder;
         float delay_rowDecoder;
+        bool  successflag;
 
 };
 
@@ -119,6 +125,7 @@ class bitCell : public RFSubblock {
         float getIntWEenergy();
         float getIntRDelay();
         float getIntWDelay();
+        bool  isSuccess();
 
     private:
         float vdd;
@@ -147,6 +154,7 @@ class bitCell : public RFSubblock {
         float delay_inter_write;
 
         float leakage_power;
+        bool  successflag;
 };
 
 class timingBlock : public RFSubblock {
@@ -159,9 +167,11 @@ class timingBlock : public RFSubblock {
         void setInput(userInput& uImp);
         void print();
         float getEnergy();
+        bool  isSuccess();
 
     private:
         float energy_timing;
+        bool  successflag;
 };
 
 // Needs to separate the driver
@@ -192,12 +202,14 @@ class bankMux : public RFSubblock {
         float getBankMuxtEnergy();
         float getIntDelay();
         float getIntEnergy();
+        bool  isSuccess();
 
     private:
         float delay_bankMux;
         float energy_bankMux;
         float delay_inter;
         float energy_inter;
+        bool  successflag;
 };
 
 

@@ -774,13 +774,16 @@ void calculator::runBruteForce()
         energy = rE + wE;
         delay = rD + wD;
 
-        for(int j=0; j < inputHandle.knobCount; ++j)
-            OutFile << knob_curr_val[j] << ";";
+        if(regfile->isSuccess())
+        {
+            for(int j=0; j < inputHandle.knobCount; ++j)
+                OutFile << knob_curr_val[j] << ";";
 
-        OutFile << inputHandle.n_banks << ";";
-        OutFile << rE << ";" << rD << ";";
-        OutFile << wE << ";" << wD << ";";
-        OutFile << endl;
+            OutFile << inputHandle.n_banks << ";";
+            OutFile << rE << ";" << rD << ";";
+            OutFile << wE << ";" << wD << ";";
+            OutFile << endl;
+        }
         /*
         // Print iteration info
         for(int j=0; j < inputHandle.knobCount; ++j)

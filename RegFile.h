@@ -27,6 +27,7 @@ class RegFile {
         void getDFFED(float& DFFenergy, float& DFFdelay);
         void getBMED(float& BMenergy, float& BMdelay);
         void runTASE(string tempPath);
+        bool isSuccess();
 
     private:
         // Change objects to pointers if needed
@@ -46,6 +47,7 @@ class RegFile {
         double rbl;
         double cbl;
         double cwl;
+        bool successflag;
 };
 
 

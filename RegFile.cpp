@@ -9,6 +9,7 @@ RegFile::RegFile(userInput& uImp) {
     rbl = 0;
     cbl = 0;
     cwl = 0;
+    successflag = false;
 }
 
 RegFile::RegFile() {
@@ -16,9 +17,15 @@ RegFile::RegFile() {
     rbl = 0;
     cbl = 0;
     cwl = 0;
+    successflag = false;
 }
 
 RegFile::~RegFile() {
+}
+
+bool RegFile::isSuccess()
+{
+    return successflag;
 }
 
 void RegFile::setInput(userInput& uImp) {
@@ -325,6 +332,14 @@ void RegFile::extractOutput() {
         //WD.extractOutput();
         ioDFF.extractOutput();
         BM.extractOutput();
+        if(ioDFF.isSuccess() && SA.isSuccess() && RD.isSuccess() &&
+           BC.isSuccess() && TB.isSuccess() && BM.isSuccess())
+        {
+            successflag = true;
+        }
+        else {
+            successflag = false;
+        }
     }
     else if(test2run == "SA") {
         string filename = "Subtest_" + test2run + ".log";

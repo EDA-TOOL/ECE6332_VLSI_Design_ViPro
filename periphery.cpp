@@ -24,12 +24,19 @@ string RFSubblock::constructTempelate(string testName, string techTemp, string t
 
 
 DFF::DFF() {
+    successflag = false;
 }
 
 DFF::DFF(userInput& uInp) {
 }
 
 DFF::~DFF() {
+    successflag = false;
+}
+
+bool DFF::isSuccess()
+{
+    return successflag;
 }
 
 void DFF::setInput(userInput& uImp) {
@@ -51,13 +58,24 @@ void DFF::extractOutput() {
         stringstream sst;
         ifstream fileHandle;
         fileHandle.open("../results_v2/DFF/RVP_DFF/data.txt");
+        fileHandle.seekg(0, ios::end);
+        int length = fileHandle.tellg();
         if(!fileHandle.is_open()) {
             cerr << "Error: Can't open output file \n ../results_v2/DFF/RVP_DFF/data.txt" << endl;
             exit(1);
         }
-        sst << fileHandle.rdbuf();
-        sst >> delay_DFF >> delay_DFF_w >> energy_DFF_r >> energy_DFF_w;
-        fileHandle.close();
+        if (length != 0)
+        {
+            successflag = true;
+            sst << fileHandle.rdbuf();
+            sst >> delay_DFF >> delay_DFF_w >> energy_DFF_r >> energy_DFF_w;
+            fileHandle.close();
+        }
+        else
+        {
+            successflag = false;
+            fileHandle.close();
+        }
 }
 
 float DFF::getRdelay() {
@@ -83,12 +101,19 @@ void DFF::print() {
 }
 
 senseAmp::senseAmp() {
+    successflag = false;
 }
 
 senseAmp::senseAmp(userInput& uInp) {
+    successflag = false;
 }
 
 senseAmp::~senseAmp() {
+}
+
+bool senseAmp::isSuccess()
+{
+    return successflag;
 }
 
 void senseAmp::getBCInfo() {
@@ -115,13 +140,24 @@ void senseAmp::extractOutput() {
     string dummy;
 
     fileHandle.open("../results_v2/SA/RVP_SA/datar.txt");
+    fileHandle.seekg(0, ios::end);
+    int length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/SA/RVP_SA/datar.txt" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> dummy >> dummy >> energy_SA >> delay_SA >> energy_inter >> delay_inter;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> dummy >> dummy >> energy_SA >> delay_SA >> energy_inter >> delay_inter;
+        fileHandle.close();
+    }
+    else
+    {
+        successflag = false;
+        fileHandle.close();
+    }
 }
 
 void senseAmp::setInput(userInput& uImp) {
@@ -153,12 +189,19 @@ void senseAmp::print() {
 }
 
 rowDecoder::rowDecoder() {
+    successflag = false;
 }
 
 rowDecoder::rowDecoder(userInput& uInp) {
+    successflag = false;
 }
 
 rowDecoder::~rowDecoder() {
+}
+
+bool rowDecoder::isSuccess()
+{
+    return successflag;
 }
 
 void rowDecoder::simulate(string techTemp) {
@@ -196,42 +239,62 @@ void rowDecoder::extractOutput() {
     if(input->WLBoost) {
         sst_path << "../results_v2/RD/RVP_Decoder_WWL_Boost/output_" << nRows << ".txt";
         fileHandle.open(sst_path.str().c_str());
+        fileHandle.seekg(0, ios::end);
+        int length = fileHandle.tellg();
         cout << " Rows= " << nRows << endl;
         if(!fileHandle.is_open()) {
             cerr << "Error: Can't open output file \n" << sst_path << endl;
             exit(1);
         }
-        sst << fileHandle.rdbuf();
+        if (length != 0)
+        {
+            successflag = true;
+            sst << fileHandle.rdbuf();
+            float power;
+            sst >> dummy >> dummy >> dummy >> delay_rowDecoder >>  power;
+            energy_rowDecoder = power*32e-9;
+        }
+        else
+        {
+            successflag = false;
+        }
 
-        float power;
-        sst >> dummy >> dummy >> dummy >> delay_rowDecoder >>  power;
-        energy_rowDecoder = power*32e-9;
     } else {
         sst_path << "../results_v2/RD/RVP_Decoder/output_" << nRows << ".txt";
         fileHandle.open(sst_path.str().c_str());
+        fileHandle.seekg(0, ios::end);
+        int length = fileHandle.tellg();
         cout << " Rows= " << nRows << endl;
         if(!fileHandle.is_open()) {
             cerr << "Error: Can't open output file \n" << sst_path << endl;
             exit(1);
         }
-        sst << fileHandle.rdbuf();
-        string str = sst.str();
-        regex_t re;
-        size_t     nmatch = 3;
-        regmatch_t pmatch[3];
+        if (length != 0)
+        {
+            successflag = true;
+            sst << fileHandle.rdbuf();
+            string str = sst.str();
+            regex_t re;
+            size_t     nmatch = 3;
+            regmatch_t pmatch[3];
 
-        char *pattern = "[^\n]*\n[^\n]*\n[^\n]*\n[ \t]*[^ \t]+[ \t]*[^ \t]+[ \t]*[^ \t]+[ \t]*([^ \t]+)[ \t]*([^ \t]+)";
-        regcomp(&re, pattern, REG_EXTENDED);
-        int status = regexec(&re, str.c_str(), nmatch, pmatch, 0);
-        regfree(&re);
-        if(status!=0) {
-            cerr << "Error: Can't Parse Row Decoder file " << sst_path.str().c_str() << "\n" << str << endl;
-            exit(0);
+            char *pattern = "[^\n]*\n[^\n]*\n[^\n]*\n[ \t]*[^ \t]+[ \t]*[^ \t]+[ \t]*[^ \t]+[ \t]*([^ \t]+)[ \t]*([^ \t]+)";
+            regcomp(&re, pattern, REG_EXTENDED);
+            int status = regexec(&re, str.c_str(), nmatch, pmatch, 0);
+            regfree(&re);
+            if(status!=0) {
+                cerr << "Error: Can't Parse Row Decoder file " << sst_path.str().c_str() << "\n" << str << endl;
+                exit(0);
+            }
+            string delay_s = str.substr(pmatch[1].rm_so, pmatch[1].rm_eo - pmatch[1].rm_so);
+            string energy_s = str.substr(pmatch[2].rm_so, pmatch[2].rm_eo - pmatch[2].rm_so);
+            delay_rowDecoder = atof(delay_s.c_str());
+            energy_rowDecoder = atof(energy_s.c_str())*32e-9;
         }
-        string delay_s = str.substr(pmatch[1].rm_so, pmatch[1].rm_eo - pmatch[1].rm_so);
-        string energy_s = str.substr(pmatch[2].rm_so, pmatch[2].rm_eo - pmatch[2].rm_so);
-        delay_rowDecoder = atof(delay_s.c_str());
-        energy_rowDecoder = atof(energy_s.c_str())*32e-9;
+        else
+        {
+            successflag = false;
+        }
     }
     fileHandle.close();
 }
@@ -287,12 +350,19 @@ void colMux::setInput(userInput& uImp) {
 }
 
 bitCell::bitCell() {
+    successflag = false;
 }
 
 bitCell::bitCell(userInput& uInp) {
+    successflag = false;
 }
 
 bitCell::~bitCell() {
+}
+
+bool bitCell::isSuccess()
+{
+    return successflag;
 }
 
 void bitCell::simulate(string techTemp) {
@@ -357,37 +427,50 @@ void bitCell::extractOutput() {
     ifstream fileHandle;
     string dummy;
     fileHandle.open("../results_v2/BC/RVP_CD/datar.txt");
+    fileHandle.seekg(0, ios::end);
+    int length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/BC/RVP_CD/datar.txt" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> dummy >> dummy >> dummy >> delay_bitcell_r >> delay_pch_r >> energy_pch_r >> energy_bitcell_r >> energy_inter_read >> delay_inter_read;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> dummy >> dummy >> dummy >> delay_bitcell_r >> delay_pch_r >> energy_pch_r >> energy_bitcell_r >> energy_inter_read >> delay_inter_read;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 
-    sst.clear();
-    sst.str("");
+        sst.clear();
+        sst.str("");
 
     fileHandle.open("../results_v2/BC/RVP_CD/dataw.txt");
+    fileHandle.seekg(0, ios::end);
+    length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/BC/RVP_CD/dataw.txt" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> dummy >> dummy >> dummy >> delay_pch_w >> delay_writeDriver >> delay_bitcell_w >> energy_pch_w >> energy_bitcell_w >> energy_writeDriver >> energy_inter_write >> delay_inter_write;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> dummy >> dummy >> dummy >> delay_pch_w >> delay_writeDriver >> delay_bitcell_w >> energy_pch_w >> energy_bitcell_w >> energy_writeDriver >> energy_inter_write >> delay_inter_write;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 
-    // Take it from the input
-    //int vdd = 1;
-    //int memSize = 512;
+        float iOffPg,iOffPu, iOffPd;
 
-    // Re-visit Leakage Calculations!!
-    // Is it Vdd or Vth
-
-    float iOffPg,iOffPu, iOffPd;
-
-    sst.clear();
-    sst.str("");
+        sst.clear();
+        sst.str("");
 
     // Pass-gate leakage
     fileHandle.open("../results_v2/BC/RVP_Ileak_PG/DAT/dc_N1_NX_d.dat");
@@ -395,35 +478,65 @@ void bitCell::extractOutput() {
         cerr << "Error: Can't open output file \n ../results_v2/BC/RVP_Ileak_PG/DAT/dc_N1_NX_d.dat" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> iOffPg;
-    fileHandle.close();
+    fileHandle.seekg(0, ios::end);
+    length = fileHandle.tellg();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> iOffPg;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 
     sst.clear();
     sst.str("");
 
     // Pull-up leakage
     fileHandle.open("../results_v2/BC/RVP_Ileak_PU/DAT/dc_P1_PX_d.dat");
+    fileHandle.seekg(0, ios::end);
+    length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/BC/RVP_Ileak_PU/DAT/dc_P1_PX_d.dat" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> iOffPu;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> iOffPu;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 
     sst.clear();
     sst.str("");
 
     // Pull-down leakage
     fileHandle.open("../results_v2/BC/RVP_Ileak_PD/DAT/dc_N1_NX_d.dat");
+    fileHandle.seekg(0, ios::end);
+    length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/BC/RVP_Ileak_PD/DAT/dc_N1_NX_d.dat" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> iOffPd;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> iOffPd;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 
     leakage_power=(iOffPu+iOffPg+iOffPd)*memSize*vdd;
 }
@@ -511,12 +624,19 @@ float bitCell::getIntWDelay() {
 }
 
 timingBlock::timingBlock() {
+    successflag = false;
 }
 
 timingBlock::timingBlock(userInput& uInp) {
+    successflag = false;
 }
 
 timingBlock::~timingBlock() {
+}
+
+bool timingBlock::isSuccess()
+{
+    return successflag;
 }
 
 void timingBlock::simulate(string techTemp) {
@@ -539,13 +659,23 @@ void timingBlock::extractOutput() {
     ifstream fileHandle;
 
     fileHandle.open("../results_v2/TB/RVP_TIMING/data.txt");
+    fileHandle.seekg(0, ios::end);
+    int length = fileHandle.tellg();
     if(!fileHandle.is_open()) {
         cerr << "Error: Can't open output file \n ../results_v2/TB/RVP_TIMING/data.txt" << endl;
         exit(1);
     }
-    sst << fileHandle.rdbuf();
-    sst >> energy_timing;
-    fileHandle.close();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> energy_timing;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+        fileHandle.close();
+    }
 }
 
 void timingBlock::setInput(userInput& uImp) {
@@ -582,12 +712,19 @@ void writeDriver::setInput(userInput& uImp) {
 }
 
 bankMux::bankMux() {
+    successflag = false;
 }
 
 bankMux::bankMux(userInput& uInp) {
+    successflag = false;
 }
 
 bankMux::~bankMux() {
+}
+
+bool bankMux::isSuccess()
+{
+    return successflag;
 }
 
 void bankMux::simulate(string techTemp) {
@@ -611,9 +748,18 @@ void bankMux::extractOutput() {
     string dummy;
 
     fileHandle.open("../results_v2/BM/RVP_Bank_Mux/data.txt");
-    sst << fileHandle.rdbuf();
-    sst >> dummy >> dummy >> energy_bankMux >> delay_bankMux >> energy_inter >> delay_inter;
-    fileHandle.close();
+    fileHandle.seekg(0, ios::end);
+    int length = fileHandle.tellg();
+    if (length != 0)
+    {
+        successflag = true;
+        sst << fileHandle.rdbuf();
+        sst >> dummy >> dummy >> energy_bankMux >> delay_bankMux >> energy_inter >> delay_inter;
+        fileHandle.close();
+    }
+    else {
+        successflag = false;
+    }
 }
 
 void bankMux::setInput(userInput& uImp) {
