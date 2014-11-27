@@ -454,10 +454,11 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
     // Move leakage to staticE
     // removed the last delay_DFF from read delay for the output data DFF delay should not be included.
     //read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux+delay_DFF;
+    //Reduced the energy of bm buffer by a half
     read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter) +
                max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux;
     read_energy=leakage_power*read_delay+energy_timing+energy_DFF_r+energy_rowDecoder+energy_pch_r+
-                energy_bitcell_r+energy_bankMux+energy_SA+energy_sa_inter+(2*energy_bm_inter)+energy_inter_bc_read;
+                energy_bitcell_r+energy_bankMux+energy_SA+energy_sa_inter+(energy_bm_inter)+energy_inter_bc_read;
 
     struct stat buf;
     string filename = "readDelay.log";
@@ -477,7 +478,6 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
         ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         ofile << "delay_DFF;";
         ofile << "delay_pch_r + delay_inter_bc_read;";
-        ofile << "delay_rowDecoder + delay_bm_inter;";
         ofile << "delay_rowDecoder + delay_bm_inter;";
         ofile << "delay_bitcell_r + delay_SA + delay_sa_inter;";
         ofile << "delay_bm_inter;";
@@ -505,7 +505,7 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
         ofile << energy_bankMux << ";";
         ofile << energy_SA << ";";
         ofile << energy_sa_inter  << ";";
-        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_bm_inter << ";";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
@@ -521,7 +521,7 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
         ofile << "energy_bankMux;";
         ofile << "energy_SA;";
         ofile << "energy_sa_inter;";
-        ofile << "2*energy_bm_inter;";
+        ofile << "energy_bm_inter;";
         ofile << "energy_inter_bc_read;" << endl;
         ofile << leakage_power * read_delay << ";";
         ofile << energy_timing << ";";
@@ -532,7 +532,7 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
         ofile << energy_bankMux << ";";
         ofile << energy_SA << ";";
         ofile << energy_sa_inter  << ";";
-        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_bm_inter << ";";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
@@ -599,11 +599,11 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
     float energy_inter_bc_write = BC.getIntWEenergy();
     float delay_inter_bc_read = BC.getIntRDelay();
     float delay_inter_bc_write = BC.getIntWDelay();
-
+//Reduced energy of BM buffer by a half
     write_delay = delay_DFF+max(max(delay_inter_bc_read+delay_pch_w,delay_rowDecoder+delay_bm_inter),(max(delay_DFF_w-delay_DFF,delay_inter_bc_write)+delay_writeDriver))
                   +delay_bitcell_w;
     write_energy = leakage_power*write_delay+energy_timing+energy_DFF_w+energy_rowDecoder+
-                   energy_writeDriver+energy_pch_w+energy_bitcell_w+energy_inter_bc_write+(2*energy_bm_inter)+energy_inter_bc_read;
+                   energy_writeDriver+energy_pch_w+energy_bitcell_w+energy_inter_bc_write+energy_bm_inter+energy_inter_bc_read;
 
     struct stat buf;
     string filename = "writeDelay.log";
@@ -652,7 +652,7 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
         ofile << energy_pch_w << ";";
         ofile << energy_bitcell_w << ";";
         ofile << energy_inter_bc_write << ";";
-        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_bm_inter << ";";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
@@ -667,7 +667,7 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
         ofile << "energy_pch_w;";
         ofile << "energy_bitcell_w;";
         ofile << "energy_inter_bc_write;";
-        ofile << "2*energy_bm_inter;";
+        ofile << "energy_bm_inter;";
         ofile << "energy_inter_bc_read;" << endl;
         ofile << leakage_power * write_delay << ";";
         ofile << energy_timing << ";";
@@ -677,7 +677,7 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
         ofile << energy_pch_w << ";";
         ofile << energy_bitcell_w << ";";
         ofile << energy_inter_bc_write << ";";
-        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_bm_inter << ";";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
