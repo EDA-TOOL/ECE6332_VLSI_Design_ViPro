@@ -239,12 +239,12 @@ int parser::parseKNOBS(string& str) {
         // Limit the value of bank, rows, col
         if(input_handle.knobName[count] == "NBANKS") {
             if(max > 32 || min < 1) {
-              cerr << "Number of banks should be between 1 and 16" << endl;;
+              cerr << "Number of banks should be between 1 and 32" << endl;;
               exit(1);
             }
         } else if (input_handle.knobName[count] == "NCOLS") {
-            if(max > 8 || min < 1) {
-              cerr << "Number of columns should be between 1 and 8" << endl;;
+            if(max > 32 || min < 1) {
+              cerr << "Number of columns should be between 1 and 32" << endl;;
               exit(1);
             }
         } else if (input_handle.knobName[count] == "NROWS") {
