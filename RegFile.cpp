@@ -596,6 +596,7 @@ void RegFile::getBMED(float& BMenergy, float& BMdelay) {
 void RegFile::runTASE(string tempPath) {
     stringstream sst;
     cout << inp.TASEpath << endl;
-    sst << "perl " << inp.TASEpath << "/device/BIN/run.pl -i " << tempPath;
+    //sst << "perl " << inp.TASEpath << "/device/BIN/run.pl -i " << tempPath;
+    sst << "perl " << inp.TASEpath << "/device/BIN/run.pl -i " << tempPath << " -nopdf";
     system(sst.str().c_str());
 }

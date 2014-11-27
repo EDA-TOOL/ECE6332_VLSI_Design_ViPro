@@ -3,7 +3,7 @@
 void RFSubblock::runTASE(string tempPath) {
     stringstream sst;
     cout << "perl " << tasePath << "/device/BIN/run.pl -i " << tempPath << endl;
-    sst << "perl " << tasePath << "/device/BIN/run.pl -i " << tempPath;
+    sst << "perl " << tasePath << "/device/BIN/run.pl -i " << tempPath <<" -noimg -nopdf";
     system(sst.str().c_str());
 }
 
