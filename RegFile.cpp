@@ -1,5 +1,6 @@
 #include "RegFile.h"
 #include "userInput.h"
+#include <sys/stat.h>
 
 RegFile::RegFile(userInput& uImp) {
     inp = uImp;
@@ -339,7 +340,7 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "RD") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float RDenergy, RDdelay;
         getRDED(RDenergy, RDdelay);
         ofile << "RDenergy: " << RDenergy << endl;
@@ -348,7 +349,7 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "BC") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float BCenergy, BCdelay;
         getBCED(BCenergy, BCdelay);
         ofile << "BCenergy: " << BCenergy << endl;
@@ -357,7 +358,7 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "TB") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float TBenergy;
         getTBED(TBenergy);
         ofile << "TBenergy: " << TBenergy << endl;
@@ -365,7 +366,7 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "ioDFF") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float DFFenergy, DFFdelay;
         getDFFED(DFFenergy, DFFdelay);
         ofile << "DFFenergy: " << DFFenergy << endl;
@@ -374,7 +375,7 @@ void RegFile::extractOutput() {
     }
     else if(test2run == "BM") {
         string filename = "Subtest_" + test2run + ".log";
-        ofstream ofile(filename.c_str());
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
         float BMenergy, BMdelay;
         getBMED(BMenergy, BMdelay);
         ofile << "BMenergy: " << BMenergy << endl;
@@ -453,8 +454,88 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
     // Move leakage to staticE
     // removed the last delay_DFF from read delay for the output data DFF delay should not be included.
     //read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux+delay_DFF;
-    read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter)+max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux;
-    read_energy=leakage_power*read_delay+energy_timing+energy_DFF_r+energy_rowDecoder+energy_pch_r+energy_bitcell_r+energy_bankMux+energy_SA+energy_sa_inter+(2*energy_bm_inter)+energy_inter_bc_read;
+    read_delay=delay_DFF+max(delay_pch_r+delay_inter_bc_read,delay_rowDecoder+delay_bm_inter) +
+               max(delay_bitcell_r+delay_SA+delay_sa_inter,delay_bm_inter)+delay_bankMux;
+    read_energy=leakage_power*read_delay+energy_timing+energy_DFF_r+energy_rowDecoder+energy_pch_r+
+                energy_bitcell_r+energy_bankMux+energy_SA+energy_sa_inter+(2*energy_bm_inter)+energy_inter_bc_read;
+
+    struct stat buf;
+    string filename = "readDelay.log";
+    if (stat(filename.c_str(), &buf) != -1)
+    {
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
+        ofile << delay_DFF << ";";
+        ofile << delay_pch_r + delay_inter_bc_read << ";";
+        ofile << delay_rowDecoder + delay_bm_inter << ";";
+        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ";";
+        ofile << delay_bm_inter << ";";
+        ofile << delay_bankMux << endl;
+        ofile.close();
+    }
+    else
+    {
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
+        ofile << "delay_DFF;";
+        ofile << "delay_pch_r + delay_inter_bc_read;";
+        ofile << "delay_rowDecoder + delay_bm_inter;";
+        ofile << "delay_rowDecoder + delay_bm_inter;";
+        ofile << "delay_bitcell_r + delay_SA + delay_sa_inter;";
+        ofile << "delay_bm_inter;";
+        ofile << "delay_bankMux;" << endl;
+        ofile << delay_DFF << ";";
+        ofile << delay_pch_r + delay_inter_bc_read << ";";
+        ofile << delay_rowDecoder + delay_bm_inter << ";";
+        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ";";
+        ofile << delay_bm_inter << ";";
+        ofile << delay_bankMux << endl;
+        ofile.close();
+    }
+
+    struct stat buf2;
+    string filename2 = "readEnergy.log";
+    if (stat(filename2.c_str(), &buf2) != -1)
+    {
+        ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
+        ofile << leakage_power * read_delay << ";";
+        ofile << energy_timing << ";";
+        ofile << energy_DFF_r << ";";
+        ofile << energy_rowDecoder << ";";
+        ofile << energy_pch_r << ";";
+        ofile << energy_bitcell_r << ";";
+        ofile << energy_bankMux << ";";
+        ofile << energy_SA << ";";
+        ofile << energy_sa_inter  << ";";
+        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_inter_bc_read << endl;
+        ofile.close();
+    }
+    else
+    {
+        ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
+        ofile << "leakage_power * read_delay;";
+        ofile << "energy_timing;";
+        ofile << "energy_DFF_r;";
+        ofile << "energy_rowDecoder;";
+        ofile << "energy_pch_r;";
+        ofile << "energy_bitcell_r;";
+        ofile << "energy_bankMux;";
+        ofile << "energy_SA;";
+        ofile << "energy_sa_inter;";
+        ofile << "2*energy_bm_inter;";
+        ofile << "energy_inter_bc_read;" << endl;
+        ofile << leakage_power * read_delay << ";";
+        ofile << energy_timing << ";";
+        ofile << energy_DFF_r << ";";
+        ofile << energy_rowDecoder << ";";
+        ofile << energy_pch_r << ";";
+        ofile << energy_bitcell_r << ";";
+        ofile << energy_bankMux << ";";
+        ofile << energy_SA << ";";
+        ofile << energy_sa_inter  << ";";
+        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_inter_bc_read << endl;
+        ofile.close();
+    }
 
     #ifdef DEBUG
     cout << "RowDecoder " << energy_rowDecoder <<
@@ -519,8 +600,87 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
     float delay_inter_bc_read = BC.getIntRDelay();
     float delay_inter_bc_write = BC.getIntWDelay();
 
-    write_delay = delay_DFF+max(max(delay_inter_bc_read+delay_pch_w,delay_rowDecoder+delay_bm_inter),(max(delay_DFF_w-delay_DFF,delay_inter_bc_write)+delay_writeDriver))+delay_bitcell_w;
-    write_energy = leakage_power*write_delay+energy_timing+energy_DFF_w+energy_rowDecoder+energy_writeDriver+energy_pch_w+energy_bitcell_w+energy_inter_bc_write+(2*energy_bm_inter)+energy_inter_bc_read;
+    write_delay = delay_DFF+max(max(delay_inter_bc_read+delay_pch_w,delay_rowDecoder+delay_bm_inter),(max(delay_DFF_w-delay_DFF,delay_inter_bc_write)+delay_writeDriver))
+                  +delay_bitcell_w;
+    write_energy = leakage_power*write_delay+energy_timing+energy_DFF_w+energy_rowDecoder+
+                   energy_writeDriver+energy_pch_w+energy_bitcell_w+energy_inter_bc_write+(2*energy_bm_inter)+energy_inter_bc_read;
+
+    struct stat buf;
+    string filename = "writeDelay.log";
+    if (stat(filename.c_str(), &buf) != -1)
+    {
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
+        ofile << delay_DFF << ";";
+        ofile << delay_inter_bc_read + delay_pch_w << ";";
+        ofile << delay_rowDecoder + delay_bm_inter << ";";
+        ofile << delay_DFF_w - delay_DFF << ";";
+        ofile << delay_inter_bc_write << ";";
+        ofile << delay_writeDriver << ";";
+        ofile << delay_bitcell_w << endl;
+        ofile.close();
+    }
+    else
+    {
+        ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
+        ofile << "delay_DFF;";
+        ofile << "delay_inter_bc_read + delay_pch_w;";
+        ofile << "delay_rowDecoder + delay_bm_inter;";
+        ofile << "delay_DFF_w - delay_DFF;";
+        ofile << "delay_inter_bc_write;";
+        ofile << "delay_writeDriver;";
+        ofile << "delay_bitcell_w;" << endl;
+        ofile << delay_DFF << ";";
+        ofile << delay_inter_bc_read + delay_pch_w << ";";
+        ofile << delay_rowDecoder + delay_bm_inter << ";";
+        ofile << delay_DFF_w - delay_DFF << ";";
+        ofile << delay_inter_bc_write << ";";
+        ofile << delay_writeDriver << ";";
+        ofile << delay_bitcell_w << endl;
+        ofile.close();
+    }
+
+    struct stat buf2;
+    string filename2 = "writeEnergy.log";
+    if (stat(filename2.c_str(), &buf2) != -1)
+    {
+        ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
+        ofile << leakage_power * write_delay << ";";
+        ofile << energy_timing << ";";
+        ofile << energy_DFF_w << ";";
+        ofile << energy_rowDecoder << ";";
+        ofile << energy_writeDriver << ";";
+        ofile << energy_pch_w << ";";
+        ofile << energy_bitcell_w << ";";
+        ofile << energy_inter_bc_write << ";";
+        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_inter_bc_read << endl;
+        ofile.close();
+    }
+    else
+    {
+        ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
+        ofile << "leakage_power * read_delay;";
+        ofile << "energy_timing;";
+        ofile << "energy_DFF_w;";
+        ofile << "energy_rowDecoder;";
+        ofile << "energy_writeDriver;";
+        ofile << "energy_pch_w;";
+        ofile << "energy_bitcell_w;";
+        ofile << "energy_inter_bc_write;";
+        ofile << "2*energy_bm_inter;";
+        ofile << "energy_inter_bc_read;" << endl;
+        ofile << leakage_power * write_delay << ";";
+        ofile << energy_timing << ";";
+        ofile << energy_DFF_w << ";";
+        ofile << energy_rowDecoder << ";";
+        ofile << energy_writeDriver << ";";
+        ofile << energy_pch_w << ";";
+        ofile << energy_bitcell_w << ";";
+        ofile << energy_inter_bc_write << ";";
+        ofile << 2 * energy_bm_inter << ";";
+        ofile << energy_inter_bc_read << endl;
+        ofile.close();
+    }
 }
 
 
