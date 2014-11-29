@@ -153,34 +153,34 @@ void calculator::sweep() {
         if (stat(inputHandle.sweepOutput.c_str(), &buf) != -1)
         {
             ofstream ofile(inputHandle.sweepOutput.c_str(), ofstream::out | ofstream::app);
-            ofile << tmpNBANKS << ";";
-            ofile << tmpNCOLMUX << ";";
-            ofile << tmpNROWS << ";";
-            ofile << var << ";";
-            ofile << rE << ";";
-            ofile << rD << ";";
-            ofile << wE << ";";
+            ofile << tmpNBANKS << ",";
+            ofile << tmpNCOLMUX << ",";
+            ofile << tmpNROWS << ",";
+            ofile << var << ",";
+            ofile << rE << ",";
+            ofile << rD << ",";
+            ofile << wE << ",";
             ofile << wD << endl;
             ofile.close();
         }
         else
         {
             ofstream ofile(inputHandle.sweepOutput.c_str(), ofstream::out | ofstream::app);
-            ofile << "NABNKS;";
-            ofile << "NCOLMUX;";
-            ofile << "NROWS;";
-            ofile << inputHandle.sweepToken.c_str() << ";";
-            ofile << "readEnergy;";
-            ofile << "readDelay;";
-            ofile << "writeEnergy;";
+            ofile << "NABNKS,";
+            ofile << "NCOLMUX,";
+            ofile << "NROWS,";
+            ofile << inputHandle.sweepToken.c_str() << ",";
+            ofile << "readEnergy,";
+            ofile << "readDelay,";
+            ofile << "writeEnergy,";
             ofile << "writeDelay" << endl;
-            ofile << tmpNBANKS << ";";
-            ofile << tmpNCOLMUX << ";";
-            ofile << tmpNROWS << ";";
-            ofile << var << ";";
-            ofile << rE << ";";
-            ofile << rD << ";";
-            ofile << wE << ";";
+            ofile << tmpNBANKS << ",";
+            ofile << tmpNCOLMUX << ",";
+            ofile << tmpNROWS << ",";
+            ofile << var << ",";
+            ofile << rE << ",";
+            ofile << rD << ",";
+            ofile << wE << ",";
             ofile << wD << endl;
             ofile.close();
         }
