@@ -480,28 +480,28 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
     if (stat(filename.c_str(), &buf) != -1)
     {
         ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
-        ofile << delay_DFF << ";";
-        ofile << delay_pch_r + delay_inter_bc_read << ";";
-        ofile << delay_rowDecoder + delay_bm_inter << ";";
-        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ";";
-        ofile << delay_bm_inter << ";";
+        ofile << delay_DFF << ",";
+        ofile << delay_pch_r + delay_inter_bc_read << ",";
+        ofile << delay_rowDecoder + delay_bm_inter << ",";
+        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ",";
+        ofile << delay_bm_inter << ",";
         ofile << delay_bankMux << endl;
         ofile.close();
     }
     else
     {
         ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
-        ofile << "delay_DFF;";
-        ofile << "delay_pch_r + delay_inter_bc_read;";
-        ofile << "delay_rowDecoder + delay_bm_inter;";
-        ofile << "delay_bitcell_r + delay_SA + delay_sa_inter;";
-        ofile << "delay_bm_inter;";
-        ofile << "delay_bankMux;" << endl;
-        ofile << delay_DFF << ";";
-        ofile << delay_pch_r + delay_inter_bc_read << ";";
-        ofile << delay_rowDecoder + delay_bm_inter << ";";
-        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ";";
-        ofile << delay_bm_inter << ";";
+        ofile << "delay_DFF,";
+        ofile << "delay_pch_r + delay_inter_bc_read,";
+        ofile << "delay_rowDecoder + delay_bm_inter,";
+        ofile << "delay_bitcell_r + delay_SA + delay_sa_inter,";
+        ofile << "delay_bm_inter,";
+        ofile << "delay_bankMux," << endl;
+        ofile << delay_DFF << ",";
+        ofile << delay_pch_r + delay_inter_bc_read << ",";
+        ofile << delay_rowDecoder + delay_bm_inter << ",";
+        ofile << delay_bitcell_r + delay_SA + delay_sa_inter << ",";
+        ofile << delay_bm_inter << ",";
         ofile << delay_bankMux << endl;
         ofile.close();
     }
@@ -511,43 +511,43 @@ void RegFile::calculateReadED(float& read_energy, float& read_delay) {
     if (stat(filename2.c_str(), &buf2) != -1)
     {
         ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
-        ofile << leakage_power * read_delay << ";";
-        ofile << energy_timing << ";";
-        ofile << energy_DFF_r << ";";
-        ofile << energy_rowDecoder << ";";
-        ofile << energy_pch_r << ";";
-        ofile << energy_bitcell_r << ";";
-        ofile << energy_bankMux << ";";
-        ofile << energy_SA << ";";
-        ofile << energy_sa_inter  << ";";
-        ofile << energy_bm_inter << ";";
+        ofile << leakage_power * read_delay << ",";
+        ofile << energy_timing << ",";
+        ofile << energy_DFF_r << ",";
+        ofile << energy_rowDecoder << ",";
+        ofile << energy_pch_r << ",";
+        ofile << energy_bitcell_r << ",";
+        ofile << energy_bankMux << ",";
+        ofile << energy_SA << ",";
+        ofile << energy_sa_inter  << ",";
+        ofile << energy_bm_inter << ",";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
     else
     {
         ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
-        ofile << "leakage_power * read_delay;";
-        ofile << "energy_timing;";
-        ofile << "energy_DFF_r;";
-        ofile << "energy_rowDecoder;";
-        ofile << "energy_pch_r;";
-        ofile << "energy_bitcell_r;";
-        ofile << "energy_bankMux;";
-        ofile << "energy_SA;";
-        ofile << "energy_sa_inter;";
-        ofile << "energy_bm_inter;";
-        ofile << "energy_inter_bc_read;" << endl;
-        ofile << leakage_power * read_delay << ";";
-        ofile << energy_timing << ";";
-        ofile << energy_DFF_r << ";";
-        ofile << energy_rowDecoder << ";";
-        ofile << energy_pch_r << ";";
-        ofile << energy_bitcell_r << ";";
-        ofile << energy_bankMux << ";";
-        ofile << energy_SA << ";";
-        ofile << energy_sa_inter  << ";";
-        ofile << energy_bm_inter << ";";
+        ofile << "leakage_power * read_delay,";
+        ofile << "energy_timing,";
+        ofile << "energy_DFF_r,";
+        ofile << "energy_rowDecoder,";
+        ofile << "energy_pch_r,";
+        ofile << "energy_bitcell_r,";
+        ofile << "energy_bankMux,";
+        ofile << "energy_SA,";
+        ofile << "energy_sa_inter,";
+        ofile << "energy_bm_inter,";
+        ofile << "energy_inter_bc_read," << endl;
+        ofile << leakage_power * read_delay << ",";
+        ofile << energy_timing << ",";
+        ofile << energy_DFF_r << ",";
+        ofile << energy_rowDecoder << ",";
+        ofile << energy_pch_r << ",";
+        ofile << energy_bitcell_r << ",";
+        ofile << energy_bankMux << ",";
+        ofile << energy_SA << ",";
+        ofile << energy_sa_inter  << ",";
+        ofile << energy_bm_inter << ",";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
@@ -625,31 +625,31 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
     if (stat(filename.c_str(), &buf) != -1)
     {
         ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
-        ofile << delay_DFF << ";";
-        ofile << delay_inter_bc_read + delay_pch_w << ";";
-        ofile << delay_rowDecoder + delay_bm_inter << ";";
-        ofile << delay_DFF_w - delay_DFF << ";";
-        ofile << delay_inter_bc_write << ";";
-        ofile << delay_writeDriver << ";";
+        ofile << delay_DFF << ",";
+        ofile << delay_inter_bc_read + delay_pch_w << ",";
+        ofile << delay_rowDecoder + delay_bm_inter << ",";
+        ofile << delay_DFF_w - delay_DFF << ",";
+        ofile << delay_inter_bc_write << ",";
+        ofile << delay_writeDriver << ",";
         ofile << delay_bitcell_w << endl;
         ofile.close();
     }
     else
     {
         ofstream ofile(filename.c_str(), ofstream::out | ofstream::app);
-        ofile << "delay_DFF;";
-        ofile << "delay_inter_bc_read + delay_pch_w;";
-        ofile << "delay_rowDecoder + delay_bm_inter;";
-        ofile << "delay_DFF_w - delay_DFF;";
-        ofile << "delay_inter_bc_write;";
-        ofile << "delay_writeDriver;";
-        ofile << "delay_bitcell_w;" << endl;
-        ofile << delay_DFF << ";";
-        ofile << delay_inter_bc_read + delay_pch_w << ";";
-        ofile << delay_rowDecoder + delay_bm_inter << ";";
-        ofile << delay_DFF_w - delay_DFF << ";";
-        ofile << delay_inter_bc_write << ";";
-        ofile << delay_writeDriver << ";";
+        ofile << "delay_DFF,";
+        ofile << "delay_inter_bc_read + delay_pch_w,";
+        ofile << "delay_rowDecoder + delay_bm_inter,";
+        ofile << "delay_DFF_w - delay_DFF,";
+        ofile << "delay_inter_bc_write,";
+        ofile << "delay_writeDriver,";
+        ofile << "delay_bitcell_w," << endl;
+        ofile << delay_DFF << ",";
+        ofile << delay_inter_bc_read + delay_pch_w << ",";
+        ofile << delay_rowDecoder + delay_bm_inter << ",";
+        ofile << delay_DFF_w - delay_DFF << ",";
+        ofile << delay_inter_bc_write << ",";
+        ofile << delay_writeDriver << ",";
         ofile << delay_bitcell_w << endl;
         ofile.close();
     }
@@ -659,40 +659,40 @@ void RegFile::calculateWriteED(float& write_energy, float& write_delay) {
     if (stat(filename2.c_str(), &buf2) != -1)
     {
         ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
-        ofile << leakage_power * write_delay << ";";
-        ofile << energy_timing << ";";
-        ofile << energy_DFF_w << ";";
-        ofile << energy_rowDecoder << ";";
-        ofile << energy_writeDriver << ";";
-        ofile << energy_pch_w << ";";
-        ofile << energy_bitcell_w << ";";
-        ofile << energy_inter_bc_write << ";";
-        ofile << energy_bm_inter << ";";
+        ofile << leakage_power * write_delay << ",";
+        ofile << energy_timing << ",";
+        ofile << energy_DFF_w << ",";
+        ofile << energy_rowDecoder << ",";
+        ofile << energy_writeDriver << ",";
+        ofile << energy_pch_w << ",";
+        ofile << energy_bitcell_w << ",";
+        ofile << energy_inter_bc_write << ",";
+        ofile << energy_bm_inter << ",";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }
     else
     {
         ofstream ofile(filename2.c_str(), ofstream::out | ofstream::app);
-        ofile << "leakage_power * read_delay;";
-        ofile << "energy_timing;";
-        ofile << "energy_DFF_w;";
-        ofile << "energy_rowDecoder;";
-        ofile << "energy_writeDriver;";
-        ofile << "energy_pch_w;";
-        ofile << "energy_bitcell_w;";
-        ofile << "energy_inter_bc_write;";
-        ofile << "energy_bm_inter;";
-        ofile << "energy_inter_bc_read;" << endl;
-        ofile << leakage_power * write_delay << ";";
-        ofile << energy_timing << ";";
-        ofile << energy_DFF_w << ";";
-        ofile << energy_rowDecoder << ";";
-        ofile << energy_writeDriver << ";";
-        ofile << energy_pch_w << ";";
-        ofile << energy_bitcell_w << ";";
-        ofile << energy_inter_bc_write << ";";
-        ofile << energy_bm_inter << ";";
+        ofile << "leakage_power * read_delay,";
+        ofile << "energy_timing,";
+        ofile << "energy_DFF_w,";
+        ofile << "energy_rowDecoder,";
+        ofile << "energy_writeDriver,";
+        ofile << "energy_pch_w,";
+        ofile << "energy_bitcell_w,";
+        ofile << "energy_inter_bc_write,";
+        ofile << "energy_bm_inter,";
+        ofile << "energy_inter_bc_read," << endl;
+        ofile << leakage_power * write_delay << ",";
+        ofile << energy_timing << ",";
+        ofile << energy_DFF_w << ",";
+        ofile << energy_rowDecoder << ",";
+        ofile << energy_writeDriver << ",";
+        ofile << energy_pch_w << ",";
+        ofile << energy_bitcell_w << ",";
+        ofile << energy_inter_bc_write << ",";
+        ofile << energy_bm_inter << ",";
         ofile << energy_inter_bc_read << endl;
         ofile.close();
     }

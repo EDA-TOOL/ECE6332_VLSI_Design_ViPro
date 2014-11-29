@@ -770,18 +770,19 @@ void calculator::runBruteForce()
 
         // Get new ED
         float rE,rD,wE, wD, energy, delay;
-        getED(rE,rD,wE, wD);
+        getED(rE, rD, wE, wD);
         energy = rE + wE;
         delay = rD + wD;
 
-        if(regfile->isSuccess())
+        //if(regfile->isSuccess())
+        if(true)
         {
             for(int j=0; j < inputHandle.knobCount; ++j)
-                OutFile << knob_curr_val[j] << ";";
+                OutFile << knob_curr_val[j] << ",";
 
-            OutFile << inputHandle.n_banks << ";";
-            OutFile << rE << ";" << rD << ";";
-            OutFile << wE << ";" << wD << ";";
+            OutFile << inputHandle.n_banks << ",";
+            OutFile << rE << "," << rD << ",";
+            OutFile << wE << "," << wD;
             OutFile << endl;
         }
         /*
@@ -800,10 +801,10 @@ void calculator::runBruteForce()
     } // End of iterations loop
 
     for(int j=0; j < inputHandle.knobCount; ++j)
-        OutFile << inputHandle.knobName[j] << ";";
-    OutFile << "NBANKS;";
-    OutFile << "REnergy;" << "RDelay;";
-    OutFile << "WEnergy;" << "WDelay";
+        OutFile << inputHandle.knobName[j] << ",";
+    OutFile << "NBANKS,";
+    OutFile << "REnergy," << "RDelay,";
+    OutFile << "WEnergy," << "WDelay";
     OutFile << endl;
 
     OutFile.close();

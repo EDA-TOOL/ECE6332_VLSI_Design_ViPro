@@ -28,10 +28,10 @@ DFF::DFF() {
 }
 
 DFF::DFF(userInput& uInp) {
+    successflag = false;
 }
 
 DFF::~DFF() {
-    successflag = false;
 }
 
 bool DFF::isSuccess()
